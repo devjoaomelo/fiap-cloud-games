@@ -1,75 +1,52 @@
-# ✅ Tech Challenge FIAP – Checklist Geral
+from pathlib import Path
 
-## 🌱 Parte 1 – Estrutura Inicial do Projeto
+# Conteúdo do checklist
+checklist_md = """
+# ✅ Checklist de Desenvolvimento do Projeto FCG
 
-- [x] Criar repositório no GitHub
-- [x] Definir estrutura de pastas baseada em DDD
-- [x] Criar solução e projeto `.NET 8` (monolito)
-- [x] Configurar `.gitignore` (VisualStudio + .NET)
-- [x] Criar pastas: `src/FCG.Domain`, `src/FCG.Application`, `src/FCG.Infra`, `src/FCG.API`
-- [x] Configurar dependências iniciais no `.csproj`
-- [x] Commit inicial com estrutura e README básico
+## 🟢 Parte 1 – Estrutura inicial do projeto
+- [x] Criar solução e projetos (`FCG.API`, `FCG.Domain`, `FCG.Application`, `FCG.Infra`)
+- [x] Organizar estrutura de pastas no padrão DDD
+- [x] Criar `.gitignore` e configurar repositório no GitHub
+- [x] Configurar DI básico e arquivos de configuração
 
----
+## 🟢 Parte 2 – Camada Domain
+- [x] Criar pastas: `Entities`, `ValueObjects`, `Enums`, `Interfaces`, `UseCases`
+- [x] Criar entidade `User`
+- [x] Criar `ValueObjects` para `Email` e `Password`
+- [x] Implementar validações nas entidades/VOs
+- [x] Criar `IUserRepository`
 
-## 🧠 Parte 2 – Camada de Domínio (`FCG.Domain`)
+## 🟢 Parte 3 – Camada Infra
+- [x] Criar pasta `Configurations` com mapeamento do `User` via Fluent API
+- [x] Criar `FCGDbContext` e aplicar configurações
+- [x] Adicionar EF Core e Pomelo (ajustar para MySQL)
+- [x] Configurar conexão no `Program.cs`
+- [x] Criar e aplicar a primeira migration
+- [x] Criar classe de DesignTime para suportar CLI (`FCGDbContextFactory`)
 
-### 🧱 Entidades e Value Objects
-- [x] Criar entidade `User` (`Entities/User.cs`)
-- [x] Criar `enum Profile` (`Enums/Profile.cs`)
-- [x] Criar `ValueObject` `Email` (`ValueObjects/Email.cs`)
-- [x] Criar `ValueObject` `Password` (`ValueObjects/Password.cs`)
+## 🔜 Parte 4 – Camada Application (Use Cases)
+- [ ] Criar pasta `UseCases/Users`
+- [ ] Implementar casos de uso (`CreateUser`, `GetUserById`, etc)
+- [ ] Criar interfaces e classes para serviços e handlers
+- [ ] Aplicar injeção de dependência para os casos de uso
 
-### 📂 Repositórios e Interfaces
-- [x] Criar interface `IUserRepository` (`Interfaces/IUserRepository.cs`)
+## 🔜 Parte 5 – Camada API
+- [ ] Criar `DTOs` para entrada e saída
+- [ ] Criar `Controllers`
+- [ ] Mapear rotas e endpoints (Minimal ou Controller)
+- [ ] Configurar autenticação JWT
+- [ ] Configurar Swagger
 
-### 💡 Casos de Uso (opcional)
-- [ ] Criar pasta `UseCases/Users/`
-- [ ] Implementar `RegisterUserUseCase`, `LoginUserUseCase`, etc.
+## 🔜 Extras / Futuro
+- [ ] Implementar testes unitários para domínio e use cases
+- [ ] Criar testes de integração
+- [ ] Publicar documentação da API
+- [ ] Deploy em ambiente de testes (opcional)
+"""
 
----
+# Caminho para salvar o arquivo
+checklist_path = Path("/mnt/data/Checklist_Projeto_FCG.md")
+checklist_path.write_text(checklist_md.strip(), encoding="utf-8")
 
-## 🧱 Parte 3 – Camada de Infraestrutura (`FCG.Infra`)
-
-- [x] Criar DbContext (`FCGDbContext.cs`)
-- [x] Mapear entidade `User` com Value Objects e Enum (`UserConfiguration.cs`)
-- [x] Implementar `UserRepository` com EF Core
-- [x] Configurar `DbContext` na `Startup` (injeção de dependência)
-- [x] Aplicar e testar a primeira migration
-- [x] Validar persistência dos dados no banco
-
----
-
-## 🌐 Parte 4 – Camada de API (`FCG.API`)
-
-- [x] Criar projeto `FCG.API`
-- [ ] Implementar endpoints com `Controllers` ou `Minimal API`
-- [ ] Adicionar autenticação JWT
-- [ ] Implementar login e cadastro de usuários
-- [ ] Criar middleware de erros e logs
-- [ ] Adicionar Swagger e configurar documentação
-- [ ] Versionamento da API (opcional)
-
----
-
-## 🧪 Parte 5 – Testes e Qualidade
-
-- [ ] Criar projeto de testes `FCG.Tests`
-- [ ] Escrever testes unitários para `User`, `Email`, `Password`
-- [ ] Aplicar TDD ou BDD em pelo menos um módulo
-- [ ] Cobertura mínima para repositórios e serviços
-
----
-
-## 📊 Parte 6 – Entregáveis
-
-- [ ] Documentação de DDD (Event Storming no Miro ou equivalente)
-- [ ] Vídeo de até 15 minutos demonstrando o projeto
-- [ ] README.md completo no repositório
-- [ ] Relatório de entrega com:
-  - Nome do grupo
-  - Participantes e usernames Discord
-  - Links para:
-    - Documentação
-    - Repositório
-    - Vídeo
+checklist_path.name
