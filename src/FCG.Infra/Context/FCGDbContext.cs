@@ -1,7 +1,7 @@
 ﻿using FCG.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace FCG.Infra
+namespace FCG.Infra.Context
 {
     public class FCGDbContext : DbContext
     {
