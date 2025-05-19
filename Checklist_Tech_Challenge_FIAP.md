@@ -32,9 +32,9 @@
 ## 🧱 Parte 3 – Camada de Infraestrutura (`FCG.Infra`)
 
 - [x] Criar DbContext (`FCGDbContext.cs`)
-- [ ] Mapear entidade `User` com Value Objects e Enum (`UserConfiguration.cs`)
-- [ ] Implementar `UserRepository` com EF Core
-- [ ] Configurar `DbContext` na `Startup` (injeção de dependência)
+- [x] Mapear entidade `User` com Value Objects e Enum (`UserConfiguration.cs`)
+- [x] Implementar `UserRepository` com EF Core
+- [x] Configurar `DbContext` na `Startup` (injeção de dependência)
 - [ ] Aplicar e testar a primeira migration
 - [ ] Validar persistência dos dados no banco
 
