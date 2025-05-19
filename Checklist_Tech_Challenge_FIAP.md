@@ -35,14 +35,14 @@
 - [x] Mapear entidade `User` com Value Objects e Enum (`UserConfiguration.cs`)
 - [x] Implementar `UserRepository` com EF Core
 - [x] Configurar `DbContext` na `Startup` (injeção de dependência)
-- [ ] Aplicar e testar a primeira migration
-- [ ] Validar persistência dos dados no banco
+- [x] Aplicar e testar a primeira migration
+- [x] Validar persistência dos dados no banco
 
 ---
 
 ## 🌐 Parte 4 – Camada de API (`FCG.API`)
 
-- [ ] Criar projeto `FCG.API`
+- [x] Criar projeto `FCG.API`
 - [ ] Implementar endpoints com `Controllers` ou `Minimal API`
 - [ ] Adicionar autenticação JWT
 - [ ] Implementar login e cadastro de usuários
