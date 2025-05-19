@@ -15,7 +15,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<FCGDbContext>(options =>
     options.UseMySql(
         builder.Configuration.GetConnectionString("DefaultConnection"),
-        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
+        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection")),
+        b => b.MigrationsAssembly("FCG.Infra")
     ));
 #endregion
 
