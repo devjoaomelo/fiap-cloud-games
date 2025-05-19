@@ -1,7 +1,3 @@
-from pathlib import Path
-
-# Conteúdo do checklist
-checklist_md = """
 # ✅ Checklist de Desenvolvimento do Projeto FCG
 
 ## 🟢 Parte 1 – Estrutura inicial do projeto
