@@ -28,7 +28,7 @@ namespace FCG.Infra.Configurations
 
             builder.OwnsOne(u => u.Password, password =>
             {
-                password.Property(p => p.Hash)
+                password.Property(p => p.Value)
                         .HasColumnName("Password")
                         .IsRequired();
             });

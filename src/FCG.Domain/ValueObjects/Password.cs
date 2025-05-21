@@ -4,13 +4,13 @@ namespace FCG.Domain.ValueObjects
 {
     public class Password
     {
-        public string Hash { get; }
+        public string Value { get; }
 
-        public Password(string hash)
+        public Password(string value)
         {
-            if (string.IsNullOrWhiteSpace(hash) || !IsValid(hash))
+            if (string.IsNullOrWhiteSpace(value) || !IsValid(value))
                 throw new ArgumentException("Invalid password. Password must be at least 8 characters long, including letters, numbers and special characters.");
-            Hash = hash;
+            Value = value;
         }
 
         private bool IsValid(string password)
@@ -19,13 +19,13 @@ namespace FCG.Domain.ValueObjects
             return Regex.IsMatch(password, @"^(?=.*[a-zA-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).{8,}$");
         }
 
-        public override string ToString() => Hash;
+        public override string ToString() => Value;
 
         public override bool Equals(object obj)
         {
             if (obj is not Password other) return false;
-            return Hash == other.Hash;
+            return Value == other.Value;
         }
-        public override int GetHashCode() => Hash.GetHashCode();
+        public override int GetHashCode() => Value.GetHashCode();
     }
 }

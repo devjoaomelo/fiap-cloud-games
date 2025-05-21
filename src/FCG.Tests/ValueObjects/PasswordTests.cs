@@ -9,7 +9,7 @@ namespace FCG.Tests.ValueObjects
         public void CreateValidPassword()
         {
             var password = new Password("StrongP4ss!");
-            Assert.False(string.IsNullOrWhiteSpace(password.Hash));
+            Assert.False(string.IsNullOrWhiteSpace(password.Value));
         }
 
         [Theory]
