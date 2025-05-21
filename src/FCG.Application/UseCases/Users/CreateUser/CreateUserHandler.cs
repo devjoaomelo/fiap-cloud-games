@@ -13,7 +13,7 @@ namespace FCG.Application.UseCases.Users.CreateUser
             _userRepository = userRepository;
         }
 
-        public async Task<CreateUserResponse> HandleUserCreateAsync(CreateUserRequest request)
+        public async Task<CreateUserResponse> HandleCreateUserAsync(CreateUserRequest request)
         {
             var email = new Email(request.Email);
             var password = new Password(request.Password);

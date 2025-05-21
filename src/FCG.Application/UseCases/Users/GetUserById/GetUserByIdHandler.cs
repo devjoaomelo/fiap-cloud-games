@@ -10,7 +10,7 @@ namespace FCG.Application.UseCases.Users.GetUserById
             _userRepository = userRepository;
         }
 
-        public async Task<GetUserByIdResponse> HandleUserAync(GetUserByIdRequest request)
+        public async Task<GetUserByIdResponse> HandleGetUserByIdAync(GetUserByIdRequest request)
         {
             var user = await _userRepository.GetUserByIdAsync(request.Id);
 
