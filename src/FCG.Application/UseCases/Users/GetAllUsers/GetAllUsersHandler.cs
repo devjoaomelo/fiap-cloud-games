@@ -19,7 +19,7 @@ namespace FCG.Application.UseCases.Users.GetAllUsers
         public async Task<IEnumerable<GetAllUsersResponse>> HandleGetAllUsersAsync(GetAllUsersRequest request)
         {
             var users = await _userRepository.GetAllAsync();
-            return users.Select(user => new GetAllUsersResponse(user.Id, user.Name, user.Email.ToString(), user.Profile.ToString()));
+            return users.Select(user => new GetAllUsersResponse(user.Id, user.Name, user.Email.Address, user.Profile.ToString()));
         }
     }
 }
