@@ -2,8 +2,8 @@
 {
     public class DeleteUserResponse
     {
-        public bool IsDeleted { get; set; }
-        public string Message { get; set; }
+        public bool IsDeleted { get; init; }
+        public string Message { get; init; }
 
         public DeleteUserResponse(bool isDeleted, string message)
         {

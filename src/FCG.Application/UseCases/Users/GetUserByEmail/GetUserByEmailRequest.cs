@@ -2,7 +2,7 @@
 {
     public class GetUserByEmailRequest
     {
-        public string Email { get; set; }
+        public string Email { get; init; }
         public GetUserByEmailRequest(string email)
         {
             Email = email;

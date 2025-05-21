@@ -11,13 +11,16 @@ namespace FCG.Application.UseCases.Users.DeleteUser
             _userRepository = userRepository;
         }
 
-        public async Task HandleDeleteUserAsync(DeleteUserRequest request)
+        public async Task<DeleteUserResponse> Handle(DeleteUserRequest request)
         {
             var user = await _userRepository.GetUserByIdAsync(request.Id);
+
             if (user == null)
-                throw new Exception("User not found.");
+                return new DeleteUserResponse(false, "User not found.");
 
             await _userRepository.DeleteUserAsync(request.Id);
+
+            return new DeleteUserResponse(true, "User removed.");
         }
     }
 }

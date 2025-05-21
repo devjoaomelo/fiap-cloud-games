@@ -2,7 +2,7 @@
 {
     public class UpdateUserResponse
     {
-        public string Message { get; set; }
+        public string Message { get; init; }
 
         public UpdateUserResponse(string message)
         {

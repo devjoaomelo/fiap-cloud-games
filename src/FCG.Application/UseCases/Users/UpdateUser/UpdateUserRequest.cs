@@ -2,9 +2,9 @@
 {
     public class UpdateUserRequest
     {
-        public Guid Id { get; set; }
-        public string NewName { get; set; }
-        public string NewPassword { get; set; }
+        public Guid Id { get; init; }
+        public string NewName { get; init; }
+        public string NewPassword { get; init; }
 
         public UpdateUserRequest(Guid id, string newName, string newPassword)
         {
