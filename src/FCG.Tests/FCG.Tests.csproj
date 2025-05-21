@@ -34,7 +34,6 @@
 
   <ItemGroup>
     <Folder Include="Entities\" />
-    <Folder Include="UseCases\" />
   </ItemGroup>
 
 </Project>

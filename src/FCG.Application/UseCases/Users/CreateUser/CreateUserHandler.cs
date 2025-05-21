@@ -15,6 +15,9 @@ namespace FCG.Application.UseCases.Users.CreateUser
 
         public async Task<CreateUserResponse> HandleCreateUserAsync(CreateUserRequest request)
         {
+            if (await _userRepository.ExistsUserByEmailAsync(request.Email))
+                throw new InvalidOperationException("User with this email already exists.");
+
             var email = new Email(request.Email);
             var password = new Password(request.Password);
             var user = new User(request.Name, email, password);
