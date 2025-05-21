@@ -22,9 +22,9 @@
 - [x] Criar classe de DesignTime para suportar CLI (`FCGDbContextFactory`)
 
 ## 🔜 Parte 4 – Camada Application (Use Cases)
-- [ ] Criar pasta `UseCases/Users`
-- [ ] Implementar casos de uso (`CreateUser`, `GetUserById`, etc)
-- [ ] Criar interfaces e classes para serviços e handlers
+- [x] Criar pasta `UseCases/Users`
+- [x] Implementar casos de uso (`CreateUser`, `GetUserById`, etc)
+- [x] Criar interfaces e classes para serviços e handlers
 - [ ] Aplicar injeção de dependência para os casos de uso
 
 ## 🔜 Parte 5 – Camada API
