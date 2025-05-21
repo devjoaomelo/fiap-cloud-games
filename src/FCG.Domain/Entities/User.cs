@@ -28,5 +28,11 @@ namespace FCG.Domain.Entities
                 throw new ArgumentException("Invalid Name");
             Name = name;
         }
+
+        public void Update(string name, Password password)
+        {
+            SetName(name);
+            Password = password;
+        }
     }
 }
