@@ -11,7 +11,7 @@ namespace FCG.Tests.UseCases;
 public class GetAllUsersHandlerTests
 {
     [Fact]
-    public async Task HandleGetAllUsersAsync_ReturnsListOfUsers()
+    public async Task Handle_WhenUsersExist_ReturnsListOfUsers()
     {
         var mock = new Mock<IUserRepository>();
         var users = new List<User>
@@ -36,4 +36,17 @@ public class GetAllUsersHandlerTests
         Assert.Equal("Maria", result[1].Name);
         Assert.Equal("maria@fiap.com", result[1].Email);
     }
+    [Fact]
+    public async Task Handle_WhenNoUsersExist_ShouldThrowInvalidOperationException()
+    {
+
+        var mock = new Mock<IUserRepository>();
+        mock.Setup(repo => repo.GetAllAsync()).ReturnsAsync(new List<User>());
+
+        var handler = new GetAllUsersHandler(mock.Object);
+        var request = new GetAllUsersRequest();
+        
+        await Assert.ThrowsAsync<InvalidOperationException>(() => handler.HandleGetAllUsersAsync(request));
+    }
+    
 }
