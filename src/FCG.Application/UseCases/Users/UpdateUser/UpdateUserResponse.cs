@@ -2,11 +2,15 @@
 {
     public class UpdateUserResponse
     {
-        public string Message { get; init; }
+        public Guid Id { get; init; }
+        public string Name { get; init; }
+        public string Email { get; init; }
 
-        public UpdateUserResponse(string message)
+        public UpdateUserResponse(Guid id, string name, string email)
         {
-            Message = message;
+            Id = id;
+            Name = name;
+            Email = email;
         }
     }
 }
