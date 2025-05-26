@@ -2,36 +2,35 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace FCG.Infra.Configurations
+namespace FCG.Infra.Configurations;
+public class UserConfiguration : IEntityTypeConfiguration<User>
 {
-    public class UserConfiguration : IEntityTypeConfiguration<User>
+    public void Configure(EntityTypeBuilder<User> builder)
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        builder.ToTable("Users");
+
+        builder.HasKey(u => u.Id);
+
+        builder.Property(u => u.Name)
+               .IsRequired()
+               .HasMaxLength(100);
+
+        builder.Property(u => u.Profile)
+               .IsRequired();
+
+        builder.OwnsOne(u => u.Email, email =>
         {
-            builder.ToTable("Users");
+            email.Property(e => e.Address)
+                 .HasColumnName("Email")
+                 .IsRequired();
+        });
 
-            builder.HasKey(u => u.Id);
-
-            builder.Property(u => u.Name)
-                   .IsRequired()
-                   .HasMaxLength(100);
-
-            builder.Property(u => u.Profile)
-                   .IsRequired();
-
-            builder.OwnsOne(u => u.Email, email =>
-            {
-                email.Property(e => e.Address)
-                     .HasColumnName("Email")
-                     .IsRequired();
-            });
-
-            builder.OwnsOne(u => u.Password, password =>
-            {
-                password.Property(p => p.Value)
-                        .HasColumnName("Password")
-                        .IsRequired();
-            });
-        }
+        builder.OwnsOne(u => u.Password, password =>
+        {
+            password.Property(p => p.Value)
+                    .HasColumnName("Password")
+                    .IsRequired();
+        });
     }
 }
+
