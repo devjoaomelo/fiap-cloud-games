@@ -12,9 +12,9 @@ namespace FCG.Application.UseCases.Users.GetUserByEmail
         public Guid Id { get; init; }
         public string Name { get; init; }
         public string Email { get; init; }
-        public Profile Profile { get; init; }
+        public string Profile { get; init; }
 
-        public GetUserByEmailResponse(Guid id, string name, string email, Profile profile)
+        public GetUserByEmailResponse(Guid id, string name, string email, string profile)
         {
             Id = id;
             Name = name;

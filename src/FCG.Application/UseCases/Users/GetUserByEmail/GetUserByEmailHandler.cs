@@ -23,7 +23,7 @@ namespace FCG.Application.UseCases.Users.GetUserByEmail
             {
                 throw new InvalidOperationException("User not found.");
             }
-            return new GetUserByEmailResponse(user.Id, user.Name, user.Email.Address, user.Profile);
+            return new GetUserByEmailResponse(user.Id, user.Name, user.Email.Address, user.Profile.ToString());
         }
     }
 }
