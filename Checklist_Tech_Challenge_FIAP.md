@@ -28,9 +28,9 @@
 - [ ] Aplicar injeção de dependência para os casos de uso
 
 ## 🔜 Parte 5 – Camada API
-- [ ] Criar `DTOs` para entrada e saída
-- [ ] Criar `Controllers`
-- [ ] Mapear rotas e endpoints (Minimal ou Controller)
+- [x] Criar `DTOs` para entrada e saída
+- [x] Criar `Controllers`
+- [x] Mapear rotas e endpoints (Minimal ou Controller)
 - [ ] Configurar autenticação JWT
 - [ ] Configurar Swagger
 
