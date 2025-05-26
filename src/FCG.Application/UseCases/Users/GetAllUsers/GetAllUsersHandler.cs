@@ -13,6 +13,10 @@ public class GetAllUsersHandler
     public async Task<IEnumerable<GetAllUsersResponse>> HandleGetAllUsersAsync(GetAllUsersRequest request)
     {
         var users = await _userRepository.GetAllAsync();
+        if (users == null || !users.Any())
+        {
+            throw new InvalidOperationException("No users found");
+        }
         return users.Select(user => new GetAllUsersResponse(user.Id, user.Name, user.Email.Address, user.Profile.ToString()));
     }
 }
