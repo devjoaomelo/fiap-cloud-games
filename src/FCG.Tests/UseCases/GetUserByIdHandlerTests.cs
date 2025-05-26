@@ -39,5 +39,4 @@ public class GetUserByIdHandlerTests
         
         await Assert.ThrowsAsync<InvalidOperationException>(() => handler.HandleGetUserByIdAsync(request));
     }
-
 }
