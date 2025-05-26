@@ -17,13 +17,13 @@ namespace FCG.Application.UseCases.Users.UpdateUser
             var user = await _userRepository.GetUserByIdAsync(request.Id);
 
             if (user == null)
-                return new UpdateUserResponse("User not found.");
+                throw new InvalidOperationException("User not found");
 
             var newPassword = new Password(request.NewPassword);
             user.Update(request.NewName, newPassword);
 
             await _userRepository.UpdateUserAsync(user);
-            return new UpdateUserResponse("Update complete.");
+            return new UpdateUserResponse(user.Id, user.Name, user.Email.Address);
         }
     }
 }
