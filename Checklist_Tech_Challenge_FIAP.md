@@ -21,11 +21,11 @@
 - [x] Criar e aplicar a primeira migration
 - [x] Criar classe de DesignTime para suportar CLI (`FCGDbContextFactory`)
 
-## 🔜 Parte 4 – Camada Application (Use Cases)
+## 🟢 Parte 4 – Camada Application (Use Cases)
 - [x] Criar pasta `UseCases/Users`
 - [x] Implementar casos de uso (`CreateUser`, `GetUserById`, etc)
 - [x] Criar interfaces e classes para serviços e handlers
-- [ ] Aplicar injeção de dependência para os casos de uso
+- [x] Aplicar injeção de dependência para os casos de uso
 
 ## 🔜 Parte 5 – Camada API
 - [x] Criar `DTOs` para entrada e saída
