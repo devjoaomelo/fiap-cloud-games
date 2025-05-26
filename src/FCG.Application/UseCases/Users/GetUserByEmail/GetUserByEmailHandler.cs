@@ -21,7 +21,7 @@ namespace FCG.Application.UseCases.Users.GetUserByEmail
             var user = await _userRepository.GetUserByEmailAsync(request.Email);
             if (user == null)
             {
-                return null;
+                throw new InvalidOperationException("User not found.");
             }
             return new GetUserByEmailResponse(user.Id, user.Name, user.Email.Address, user.Profile);
         }
