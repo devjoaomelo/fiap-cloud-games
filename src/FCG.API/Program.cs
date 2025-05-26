@@ -1,3 +1,9 @@
+using FCG.Application.UseCases.Users.CreateUser;
+using FCG.Application.UseCases.Users.DeleteUser;
+using FCG.Application.UseCases.Users.GetAllUsers;
+using FCG.Application.UseCases.Users.GetUserByEmail;
+using FCG.Application.UseCases.Users.GetUserById;
+using FCG.Application.UseCases.Users.UpdateUser;
 using FCG.Domain.Interfaces;
 using FCG.Infra.Context;
 using FCG.Infra.Repositories;
@@ -7,6 +13,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<CreateUserHandler>();
+builder.Services.AddScoped<GetAllUsersHandler>();
+builder.Services.AddScoped<GetUserByIdHandler>();
+builder.Services.AddScoped<GetUserByEmailHandler>();
+builder.Services.AddScoped<UpdateUserHandler>();
+builder.Services.AddScoped<DeleteUserHandler>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
