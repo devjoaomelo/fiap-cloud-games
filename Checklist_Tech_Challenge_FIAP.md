@@ -40,9 +40,3 @@
 - [ ] Publicar documentação da API
 - [ ] Deploy em ambiente de testes (opcional)
 """
-
-# Caminho para salvar o arquivo
-checklist_path = Path("/mnt/data/Checklist_Projeto_FCG.md")
-checklist_path.write_text(checklist_md.strip(), encoding="utf-8")
-
-checklist_path.name
