@@ -26,8 +26,4 @@
     <ProjectReference Include="..\FCG.Application\FCG.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Auth\" />
-  </ItemGroup>
-
 </Project>
