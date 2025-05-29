@@ -21,16 +21,16 @@
 - [x] Criar e aplicar a primeira migration
 - [x] Criar classe de DesignTime para suportar CLI (`FCGDbContextFactory`)
 
-## 🔜 Parte 4 – Camada Application (Use Cases)
+## 🟢 Parte 4 – Camada Application (Use Cases)
 - [x] Criar pasta `UseCases/Users`
 - [x] Implementar casos de uso (`CreateUser`, `GetUserById`, etc)
 - [x] Criar interfaces e classes para serviços e handlers
-- [ ] Aplicar injeção de dependência para os casos de uso
+- [x] Aplicar injeção de dependência para os casos de uso
 
 ## 🔜 Parte 5 – Camada API
-- [ ] Criar `DTOs` para entrada e saída
-- [ ] Criar `Controllers`
-- [ ] Mapear rotas e endpoints (Minimal ou Controller)
+- [x] Criar `DTOs` para entrada e saída
+- [x] Criar `Controllers`
+- [x] Mapear rotas e endpoints (Minimal ou Controller)
 - [ ] Configurar autenticação JWT
 - [ ] Configurar Swagger
 
@@ -40,9 +40,3 @@
 - [ ] Publicar documentação da API
 - [ ] Deploy em ambiente de testes (opcional)
 """
-
-# Caminho para salvar o arquivo
-checklist_path = Path("/mnt/data/Checklist_Projeto_FCG.md")
-checklist_path.write_text(checklist_md.strip(), encoding="utf-8")
-
-checklist_path.name
