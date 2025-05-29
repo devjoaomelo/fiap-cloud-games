@@ -18,7 +18,7 @@ public class LoginUserHandler
         _configuration = configuration;
     }
 
-    public async Task<LoginUserResponse> LoginUser(LoginUserRequest loginUserRequest)
+    public async Task<LoginUserResponse> HandleLoginUserAsync(LoginUserRequest loginUserRequest)
     {
         var user = await _userRepository.GetUserByEmailAsync(loginUserRequest.Email);
 
