@@ -20,7 +20,7 @@ public class Password
 
     public override string ToString() => Value;
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (obj is not Password other) return false;
         return Value == other.Value;

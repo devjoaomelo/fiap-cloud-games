@@ -22,7 +22,7 @@ public class Email
         return Address;
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (obj is not Email other) return false;
         return string.Equals(Address, other.Address, StringComparison.OrdinalIgnoreCase);

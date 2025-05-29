@@ -10,7 +10,12 @@ public class User
     public Password Password { get; private set; }
     public Profile Profile { get; private set; }
 
-    protected User() { }
+    protected User()
+    {
+        Name = null!;
+        Email = null!;
+        Password = null!;
+    }
 
     public User(string name, Email email, Password password)
     {
