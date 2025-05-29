@@ -1,29 +1,28 @@
 ﻿using FCG.Domain.Interfaces;
 using FCG.Domain.ValueObjects;
 
-namespace FCG.Application.UseCases.Users.UpdateUser
+namespace FCG.Application.UseCases.Users.UpdateUser;
+public class UpdateUserHandler
 {
-    public class UpdateUserHandler
+    private readonly IUserRepository _userRepository;
+
+    public UpdateUserHandler(IUserRepository userRepository)
     {
-        private readonly IUserRepository _userRepository;
+        _userRepository = userRepository;
+    }
 
-        public UpdateUserHandler(IUserRepository userRepository)
-        {
-            _userRepository = userRepository;
-        }
+    public async Task<UpdateUserResponse> HandleUpdateUserAsync(UpdateUserRequest request)
+    {
+        var user = await _userRepository.GetUserByIdAsync(request.Id);
 
-        public async Task<UpdateUserResponse> HandleUpdateUserAsync(UpdateUserRequest request)
-        {
-            var user = await _userRepository.GetUserByIdAsync(request.Id);
+        if (user == null)
+            throw new InvalidOperationException("User not found");
 
-            if (user == null)
-                throw new InvalidOperationException("User not found");
+        var newPassword = new Password(request.NewPassword);
+        user.Update(request.NewName, newPassword);
 
-            var newPassword = new Password(request.NewPassword);
-            user.Update(request.NewName, newPassword);
-
-            await _userRepository.UpdateUserAsync(user);
-            return new UpdateUserResponse(user.Id, user.Name, user.Email.Address);
-        }
+        await _userRepository.UpdateUserAsync(user);
+        return new UpdateUserResponse(user.Id, user.Name, user.Email.Address);
     }
 }
+

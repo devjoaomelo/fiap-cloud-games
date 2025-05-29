@@ -1,8 +1,7 @@
-﻿namespace FCG.Domain.Enums
+﻿namespace FCG.Domain.Enums;
+public enum Profile
 {
-   public enum Profile
-    {
-        User = 0,
-        Admin = 1,
-    }
+    User = 0,
+    Admin = 1,
 }
+

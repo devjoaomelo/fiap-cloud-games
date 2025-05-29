@@ -1,12 +1,10 @@
-﻿namespace FCG.Application.UseCases.Users.GetUserByEmail
+﻿namespace FCG.Application.UseCases.Users.GetUserByEmail;
+public class GetUserByEmailRequest
 {
-    public class GetUserByEmailRequest
+    public string Email { get; init; }
+    public GetUserByEmailRequest(string email)
     {
-        public string Email { get; init; }
-        public GetUserByEmailRequest(string email)
-        {
-            Email = email;
-        }
+        Email = email;
     }
-
 }
+
