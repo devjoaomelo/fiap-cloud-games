@@ -34,6 +34,7 @@ public class ExceptionMiddleware
             ArgumentException => HttpStatusCode.BadRequest,
             InvalidOperationException => HttpStatusCode.Conflict,
             KeyNotFoundException => HttpStatusCode.NotFound,
+            UnauthorizedAccessException => HttpStatusCode.Unauthorized,
             _ => HttpStatusCode.InternalServerError
         };
         var result = JsonSerializer.Serialize(new { error = ex.Message });
