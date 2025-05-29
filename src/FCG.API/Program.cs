@@ -1,3 +1,4 @@
+using System.Text;
 using FCG.API.Middleware;
 using FCG.Application.UseCases.Users.CreateUser;
 using FCG.Application.UseCases.Users.DeleteUser;
@@ -9,6 +10,7 @@ using FCG.Domain.Interfaces;
 using FCG.Infra.Context;
 using FCG.Infra.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +22,20 @@ builder.Services.AddScoped<GetUserByIdHandler>();
 builder.Services.AddScoped<GetUserByEmailHandler>();
 builder.Services.AddScoped<UpdateUserHandler>();
 builder.Services.AddScoped<DeleteUserHandler>();
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer("Bearer", options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    });
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -47,6 +63,7 @@ app.UseExceptionMiddleware();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllers();
 
