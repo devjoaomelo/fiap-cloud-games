@@ -5,6 +5,7 @@ using FCG.Application.UseCases.Users.DeleteUser;
 using FCG.Application.UseCases.Users.GetAllUsers;
 using FCG.Application.UseCases.Users.GetUserByEmail;
 using FCG.Application.UseCases.Users.GetUserById;
+using FCG.Application.UseCases.Users.LoginUser;
 using FCG.Application.UseCases.Users.UpdateUser;
 using FCG.Domain.Interfaces;
 using FCG.Infra.Context;
@@ -22,6 +23,7 @@ builder.Services.AddScoped<GetUserByIdHandler>();
 builder.Services.AddScoped<GetUserByEmailHandler>();
 builder.Services.AddScoped<UpdateUserHandler>();
 builder.Services.AddScoped<DeleteUserHandler>();
+builder.Services.AddScoped<LoginUserHandler>();
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
     {
@@ -33,7 +35,8 @@ builder.Services.AddAuthentication("Bearer")
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:SecretKey"] 
+                ?? throw new InvalidOperationException("JWT:SecretKey is missing.")))
         };
     });
 
@@ -62,8 +65,9 @@ if (app.Environment.IsDevelopment())
 app.UseExceptionMiddleware();
 
 app.UseHttpsRedirection();
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();  
+
 
 app.MapControllers();
 

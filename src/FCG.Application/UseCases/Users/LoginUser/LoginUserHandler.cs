@@ -28,7 +28,7 @@ public class LoginUserHandler
         }
 
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(_configuration["JWT:SecretKey"]);
+        var key = Encoding.ASCII.GetBytes(_configuration["JWT:SecretKey"] ?? throw new InvalidOperationException("SecretKey is missing in configuration."));
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new[]

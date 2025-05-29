@@ -3,6 +3,7 @@ using FCG.Application.UseCases.Users.DeleteUser;
 using FCG.Application.UseCases.Users.GetAllUsers;
 using FCG.Application.UseCases.Users.GetUserByEmail;
 using FCG.Application.UseCases.Users.GetUserById;
+using FCG.Application.UseCases.Users.LoginUser;
 using FCG.Application.UseCases.Users.UpdateUser;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +19,7 @@ public class UsersController : ControllerBase
     private readonly GetUserByIdHandler _getUserByIdHandler;
     private readonly GetUserByEmailHandler _getUserByEmailHandler;
     private readonly UpdateUserHandler _updateUserHandler;
+    private readonly LoginUserHandler _loginUserHandler;
 
     public UsersController(
         CreateUserHandler createHandler,
@@ -25,7 +27,8 @@ public class UsersController : ControllerBase
         GetUserByIdHandler getByIdHandler,
         GetUserByEmailHandler getByEmailHandler,
         UpdateUserHandler updateHandler,
-        DeleteUserHandler deleteHandler)
+        DeleteUserHandler deleteHandler,
+        LoginUserHandler loginUserHandler)
     {
         _createUserHandler = createHandler;
         _deleteUserHandler = deleteHandler;
@@ -33,6 +36,7 @@ public class UsersController : ControllerBase
         _getUserByIdHandler = getByIdHandler;
         _getUserByEmailHandler = getByEmailHandler;
         _updateUserHandler = updateHandler;
+        _loginUserHandler = loginUserHandler;
     }
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateUserRequest request)
@@ -75,6 +79,13 @@ public class UsersController : ControllerBase
     {
         var result = await _deleteUserHandler.HandleDeleteUserAsync(new DeleteUserRequest(id));
         return Ok(result);
+    }
+    
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] LoginUserRequest request)
+    {
+        var response = await _loginUserHandler.HandleLoginUserAsync(request);
+        return Ok(response);
     }
 }
 
