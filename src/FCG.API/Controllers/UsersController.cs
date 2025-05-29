@@ -5,6 +5,7 @@ using FCG.Application.UseCases.Users.GetUserByEmail;
 using FCG.Application.UseCases.Users.GetUserById;
 using FCG.Application.UseCases.Users.LoginUser;
 using FCG.Application.UseCases.Users.UpdateUser;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FCG.API.Controllers;
@@ -39,6 +40,7 @@ public class UsersController : ControllerBase
         _loginUserHandler = loginUserHandler;
     }
     [HttpPost]
+    [AllowAnonymous]
     public async Task<IActionResult> Create([FromBody] CreateUserRequest request)
     {
         var result = await _createUserHandler.HandleCreateUserAsync(request);
@@ -46,6 +48,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> GetAll()
     {
         var result = await _getAllUsersHandler.HandleGetAllUsersAsync(new GetAllUsersRequest());
@@ -53,6 +56,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
+    [Authorize]
     public async Task<IActionResult> GetById(Guid id)
     {
         var result = await _getUserByIdHandler.HandleGetUserByIdAsync(new GetUserByIdRequest(id));
@@ -60,6 +64,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("email/{email}")]
+    [Authorize]
     public async Task<IActionResult> GetByEmail(string email)
     {
         var result = await _getUserByEmailHandler.HandleGetUserByEmailAsync(new GetUserByEmailRequest(email));
@@ -67,6 +72,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
+    [Authorize]
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdateUserRequest request)
     {
         if (id != request.Id) return BadRequest("ID mismatch.");
@@ -75,6 +81,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
+    [Authorize]
     public async Task<IActionResult> Delete(Guid id)
     {
         var result = await _deleteUserHandler.HandleDeleteUserAsync(new DeleteUserRequest(id));
@@ -82,6 +89,7 @@ public class UsersController : ControllerBase
     }
     
     [HttpPost("login")]
+    [AllowAnonymous]
     public async Task<IActionResult> Login([FromBody] LoginUserRequest request)
     {
         var response = await _loginUserHandler.HandleLoginUserAsync(request);
