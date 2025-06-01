@@ -16,20 +16,24 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                .HasMaxLength(100);
 
         builder.Property(u => u.Profile)
-               .IsRequired();
+               .IsRequired()
+               .HasConversion<string>();
 
         builder.OwnsOne(u => u.Email, email =>
         {
             email.Property(e => e.Address)
                  .HasColumnName("Email")
-                 .IsRequired();
+                 .IsRequired()
+                 .HasMaxLength(254);
+            email.HasIndex(e => e.Address).IsUnique();
         });
 
         builder.OwnsOne(u => u.Password, password =>
         {
-            password.Property(p => p.Value)
-                    .HasColumnName("Password")
-                    .IsRequired();
+            password.Property(p => p.Hash)
+                    .HasColumnName("PasswordHash")
+                    .IsRequired()
+                    .HasMaxLength(60);
         });
     }
 }

@@ -5,37 +5,35 @@ namespace FCG.Tests.ValueObjects;
 public class PasswordTests
 {
     [Fact]
-    public void CreateValidPassword()
+    public void Create_ValidPassword_GeneratesHash()
     {
         var password = new Password("StrongP4ss!");
-        Assert.False(string.IsNullOrWhiteSpace(password.Value));
+        Assert.NotNull(password.Hash);
+        Assert.False(string.IsNullOrWhiteSpace(password.Hash));
     }
 
     [Theory]
     [InlineData(null)]
     [InlineData("")]
     [InlineData("8756")]
+    [InlineData("NoSpecialChar234")]
     public void InvalidPasswordEx(string invalidPass)
     {
         Assert.Throws<ArgumentException>(() => new Password(invalidPass));
     }
 
     [Fact]
-    public void PasswordMustBeEqual()
+    public void Password_MustBe_Equal()
     {
-        var pass1 = new Password("pass1234!");
-        var pass2 = new Password("pass1234!");
-
-        Assert.Equal(pass1, pass2);
+        var password = new Password("Pass1234!");
+        Assert.True(password.Verify("Pass1234!"));
     }
 
     [Fact]
-    public void PasswordMustBeDifferent()
+    public void Password_MustBe_Different()
     {
-        var pass1 = new Password("pass1234!");
-        var pass2 = new Password("pass4321!");
-
-        Assert.NotEqual(pass1, pass2);
+        var password = new Password("Pass1234!");
+        Assert.False(password.Verify("WrongPassword123!"));
     }
 }
 

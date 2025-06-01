@@ -48,7 +48,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet]
-    [Authorize]
+
     public async Task<IActionResult> GetAll()
     {
         var result = await _getAllUsersHandler.HandleGetAllUsersAsync(new GetAllUsersRequest());
@@ -56,7 +56,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
-    [Authorize]
+
     public async Task<IActionResult> GetById(Guid id)
     {
         var result = await _getUserByIdHandler.HandleGetUserByIdAsync(new GetUserByIdRequest(id));
@@ -64,7 +64,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("email/{email}")]
-    [Authorize]
+
     public async Task<IActionResult> GetByEmail(string email)
     {
         var result = await _getUserByEmailHandler.HandleGetUserByEmailAsync(new GetUserByEmailRequest(email));
@@ -72,7 +72,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    [Authorize]
+
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdateUserRequest request)
     {
         if (id != request.Id) return BadRequest("ID mismatch.");
@@ -81,7 +81,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
-    [Authorize]
+
     public async Task<IActionResult> Delete(Guid id)
     {
         var result = await _deleteUserHandler.HandleDeleteUserAsync(new DeleteUserRequest(id));

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FCG.Infra.Migrations
 {
     [DbContext(typeof(FCGDbContext))]
-    [Migration("20250519191130_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250601012443_initialMigration")]
+    partial class initialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,8 +33,9 @@ namespace FCG.Infra.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
-                    b.Property<int>("Profile")
-                        .HasColumnType("int");
+                    b.Property<string>("Profile")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -50,10 +51,14 @@ namespace FCG.Infra.Migrations
 
                             b1.Property<string>("Address")
                                 .IsRequired()
-                                .HasColumnType("longtext")
+                                .HasMaxLength(254)
+                                .HasColumnType("varchar(254)")
                                 .HasColumnName("Email");
 
                             b1.HasKey("UserId");
+
+                            b1.HasIndex("Address")
+                                .IsUnique();
 
                             b1.ToTable("Users");
 
@@ -68,8 +73,9 @@ namespace FCG.Infra.Migrations
 
                             b1.Property<string>("Hash")
                                 .IsRequired()
-                                .HasColumnType("longtext")
-                                .HasColumnName("Password");
+                                .HasMaxLength(60)
+                                .HasColumnType("varchar(60)")
+                                .HasColumnName("PasswordHash");
 
                             b1.HasKey("UserId");
 

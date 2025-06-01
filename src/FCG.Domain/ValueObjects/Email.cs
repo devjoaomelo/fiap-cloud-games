@@ -3,7 +3,7 @@
 namespace FCG.Domain.ValueObjects;
 public class Email
 {
-    public string Address { get;}
+    public string Address { get; private set;}
 
     public Email(string address)
     {
@@ -12,9 +12,9 @@ public class Email
         Address = address;
     }
 
-    private bool IsValid(string address)
+    private static bool IsValid(string address)
     {
-        return !string.IsNullOrWhiteSpace(address) && Regex.IsMatch(address, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+        return !string.IsNullOrWhiteSpace(address) && Regex.IsMatch(address, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
     }
 
     public override string ToString()
