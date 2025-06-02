@@ -1,6 +1,7 @@
 using System.Text;
 using FCG.API.Middleware;
 using FCG.Application.UseCases.Games.CreateGame;
+using FCG.Application.UseCases.Games.DeleteGame;
 using FCG.Application.UseCases.Games.GetAllGames;
 using FCG.Application.UseCases.Games.GetGameById;
 using FCG.Application.UseCases.Games.UpdateGame;
@@ -33,11 +34,8 @@ builder.Services.AddScoped<GetUserByEmailHandler>();
 builder.Services.AddScoped<UpdateUserHandler>();
 builder.Services.AddScoped<UpdateGameHandler>();
 builder.Services.AddScoped<DeleteUserHandler>();
+builder.Services.AddScoped<DeleteGameHandler>();
 builder.Services.AddScoped<LoginUserHandler>();
-
-
-
-
 
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
