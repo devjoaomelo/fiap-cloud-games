@@ -17,6 +17,7 @@ using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 #region Services
+builder.Services.AddScoped<IGameRepository, GameRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<CreateUserHandler>();
 builder.Services.AddScoped<GetAllUsersHandler>();

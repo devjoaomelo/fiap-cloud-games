@@ -12,13 +12,22 @@ public class UserGameConfiguration : IEntityTypeConfiguration<UserGame>
 
         builder.HasKey(ug => ug.Id);
 
-        builder.Property(ug => ug.UserId)
+        builder.Property(ug => ug.Id)
             .IsRequired();
 
-        builder.Property(ug => ug.GameId)
+        builder.Property(ug => ug.PurchaseDate)
             .IsRequired();
-        
-        builder.HasIndex(ug => new { ug.UserId, ug.GameId })
-            .IsUnique();
+
+        builder.HasOne(ug => ug.User)
+            .WithMany(u => u.UserGames)
+            .HasForeignKey(ug => ug.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasOne(ug => ug.Game)
+            .WithMany(g => g.UserGames)
+            .HasForeignKey(ug => ug.GameId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasIndex(ug => new { ug.UserId, ug.GameId }).IsUnique();
     }
 }
