@@ -4,17 +4,17 @@ namespace FCG.Domain.Entities;
 
 public sealed class Game
 {
-    public Guid GameId { get; private set; }
+    public Guid Id { get; private set; }
     public Title Title { get; private set; }
     public Description Description { get; private set; }
     public Price Price { get; private set; }
     public DateTime CreatedDate { get; private set; }
 
-    public ICollection<UserGame> UsersGames { get; private set; } = new List<UserGame>();
+    public ICollection<UserGame> UserGames { get; private set; } = new List<UserGame>();
 
     public Game(Title title, Description description, Price price)
     {
-        GameId = Guid.NewGuid();
+        Id = Guid.NewGuid();
         Title = title;
         Description = description;
         Price = price;

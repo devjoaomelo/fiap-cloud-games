@@ -35,6 +35,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                     .IsRequired()
                     .HasMaxLength(60);
         });
+
+        builder.HasMany(u => u.UserGames)
+            .WithOne(ug => ug.User)
+            .HasForeignKey(ug => ug.UserId);
     }
 }
 

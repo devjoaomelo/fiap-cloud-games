@@ -9,6 +9,7 @@ public class User
     public Email Email { get; private set; }        
     public Password Password { get; private set; }
     public Profile Profile { get; private set; }
+    public ICollection<UserGame> UserGames { get; private set; } = new List<UserGame>();
 
     protected User()
     {
@@ -24,7 +25,9 @@ public class User
         Password = password;
         Id = Guid.NewGuid();
         Profile = Profile.User;
+        
     }
+    
 
     private void SetName(string name)
     {
