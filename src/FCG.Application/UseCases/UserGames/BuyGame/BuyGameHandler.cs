@@ -19,7 +19,7 @@ public class BuyGameHandler
         _userGameRepository = userGameRepository;
     }
 
-    public async Task<BuyGameResponse> HandleAsync(BuyGameRequest request)
+    public async Task<BuyGameResponse> HandleBuyGameAsync(BuyGameRequest request)
     {
         var user = await _userRepository.GetUserByIdAsync(request.UserId)
                    ?? throw new InvalidOperationException("User not found.");
