@@ -9,4 +9,5 @@ public interface IGameRepository
     Task UpdateGameAsync(Game game);
     Task DeleteGameAsync(Game game);
     Task<IEnumerable<Game>> GetAllGamesAsync();
+    Task<Game?> GetGameByTitleAsync(string title);
 }
