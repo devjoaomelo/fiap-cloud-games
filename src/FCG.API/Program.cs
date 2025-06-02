@@ -1,5 +1,9 @@
 using System.Text;
 using FCG.API.Middleware;
+using FCG.Application.UseCases.Games.CreateGame;
+using FCG.Application.UseCases.Games.GetAllGames;
+using FCG.Application.UseCases.Games.GetGameById;
+using FCG.Application.UseCases.Games.UpdateGame;
 using FCG.Application.UseCases.Users.CreateUser;
 using FCG.Application.UseCases.Users.DeleteUser;
 using FCG.Application.UseCases.Users.GetAllUsers;
@@ -20,14 +24,21 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IGameRepository, GameRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<CreateUserHandler>();
+builder.Services.AddScoped<CreateGameHandler>();
 builder.Services.AddScoped<GetAllUsersHandler>();
+builder.Services.AddScoped<GetAllGamesHandler>();
 builder.Services.AddScoped<GetUserByIdHandler>();
+builder.Services.AddScoped<GetGameByIdHandler>();
 builder.Services.AddScoped<GetUserByEmailHandler>();
 builder.Services.AddScoped<UpdateUserHandler>();
+builder.Services.AddScoped<UpdateGameHandler>();
 builder.Services.AddScoped<DeleteUserHandler>();
 builder.Services.AddScoped<LoginUserHandler>();
-builder.Services.AddScoped<CreateUserHandler>();
-builder.Services.AddScoped<GetAllUsersHandler>();
+
+
+
+
+
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
     {
