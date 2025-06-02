@@ -11,7 +11,7 @@ public class GetAllGamesHandler
         _gameRepository = gameRepository;
     }
 
-    public async Task<IEnumerable<GetAllGamesResponse>> HandleAsync(GetAllGamesRequest request)
+    public async Task<IEnumerable<GetAllGamesResponse>> HandleGetAllGamesAsync(GetAllGamesRequest request)
     {
         var games = await _gameRepository.GetAllGamesAsync();
 

@@ -13,7 +13,7 @@ public class UpdateGameHandler
         _gameRepository = gameRepository;
     }
 
-    public async Task<UpdateGameResponse> HandleAsync(UpdateGameRequest request)
+    public async Task<UpdateGameResponse> HandleUpdateGameAsync(UpdateGameRequest request)
     {
         var game = await _gameRepository.GetGameByIdAsync(request.Id);
 
