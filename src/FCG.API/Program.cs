@@ -26,6 +26,8 @@ builder.Services.AddScoped<GetUserByEmailHandler>();
 builder.Services.AddScoped<UpdateUserHandler>();
 builder.Services.AddScoped<DeleteUserHandler>();
 builder.Services.AddScoped<LoginUserHandler>();
+builder.Services.AddScoped<CreateUserHandler>();
+builder.Services.AddScoped<GetAllUsersHandler>();
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
     {
