@@ -33,4 +33,10 @@ public class UserGameRepository : IUserGameRepository
             .Where(ug => ug.UserId == userId)
             .ToListAsync();
     }
+
+    public async Task RemoveUserGameAsync(UserGame userGame)
+    {
+        _context.Set<UserGame>().Remove(userGame);
+        await _context.SaveChangesAsync();
+    }
 }

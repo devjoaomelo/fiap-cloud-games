@@ -6,6 +6,7 @@ using FCG.Application.UseCases.Games.GetAllGames;
 using FCG.Application.UseCases.Games.GetGameById;
 using FCG.Application.UseCases.Games.UpdateGame;
 using FCG.Application.UseCases.UserGames.BuyGame;
+using FCG.Application.UseCases.UserGames.GetGamesByUser;
 using FCG.Application.UseCases.Users.CreateUser;
 using FCG.Application.UseCases.Users.DeleteUser;
 using FCG.Application.UseCases.Users.GetAllUsers;
@@ -39,6 +40,7 @@ builder.Services.AddScoped<DeleteUserHandler>();
 builder.Services.AddScoped<DeleteGameHandler>();
 builder.Services.AddScoped<LoginUserHandler>();
 builder.Services.AddScoped<BuyGameHandler>();
+builder.Services.AddScoped <GetGamesByUserHandler>();
 
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
