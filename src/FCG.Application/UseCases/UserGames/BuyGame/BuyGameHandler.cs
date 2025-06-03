@@ -36,6 +36,6 @@ public class BuyGameHandler
         var userGame = new UserGame(request.UserId, request.GameId);
         await _userGameRepository.AddAsync(userGame);
 
-        return new BuyGameResponse(userGame.Id);
+        return new BuyGameResponse(true, "Game purchased successfully.");
     }
 }

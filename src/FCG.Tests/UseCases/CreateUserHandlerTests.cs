@@ -17,7 +17,7 @@ public class CreateUserHandlerTests
             .ReturnsAsync(false);
 
         var handler = new CreateUserHandler(mock.Object);
-        var request = new CreateUserRequest("João Melo", "joaomelo@fiap.com", "fiap@1234");
+        var request = new CreateUserRequest("João Melo", "joaomelo@fiap.com", "Fiap@1234");
         var response = await handler.HandleCreateUserAsync(request);
         
         mock.Verify(x=> x.CreateUserAsync(It.IsAny<User>()), Times.Once);
@@ -50,7 +50,7 @@ public class CreateUserHandlerTests
     {
         var mock = new Mock<IUserRepository>();
         var handler = new CreateUserHandler(mock.Object);
-        var request = new CreateUserRequest("João", invalidEmail, "password@12345");
+        var request = new CreateUserRequest("João", invalidEmail, "Password@12345");
         
         await Assert.ThrowsAsync<ArgumentException>(() => handler.HandleCreateUserAsync(request));
     }
@@ -62,7 +62,7 @@ public class CreateUserHandlerTests
     {
         var mock = new Mock<IUserRepository>();
         var handler = new CreateUserHandler(mock.Object);
-        var request = new CreateUserRequest(invalidName, "joao@fiap.com", "password@123");
+        var request = new CreateUserRequest(invalidName, "joao@fiap.com", "Password@123");
         
         await Assert.ThrowsAsync<ArgumentException>(() => handler.HandleCreateUserAsync(request));
     }

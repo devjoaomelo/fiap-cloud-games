@@ -2,10 +2,12 @@ namespace FCG.Application.UseCases.UserGames.BuyGame;
 
 public class BuyGameResponse
 {
-    public Guid UserGameId { get; set; }
+    public bool IsSuccess { get; }
+    public string Message { get; }
 
-    public BuyGameResponse(Guid userGameId)
+    public BuyGameResponse(bool isSuccess, string message)
     {
-        UserGameId = userGameId;
+        IsSuccess = isSuccess;
+        Message = message;
     }
 }
