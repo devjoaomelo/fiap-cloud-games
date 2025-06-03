@@ -11,19 +11,19 @@ Os usuários podem se registrar, fazer login com autenticação JWT, comprar jog
 
 ---
 
-## 🧱 Tecnologias e Arquitetura
+## Tecnologias e Arquitetura
 
-- ✅ **.NET 8**
-- ✅ **ASP.NET Core Web API**
-- ✅ **Entity Framework Core**
-- ✅ **JWT (Json Web Token)**
-- ✅ **Swagger/OpenAPI**
-- ✅ **xUnit + Moq**
-- ✅ **Arquitetura em Camadas (Clean Architecture + DDD)**
+- **.NET 8**
+- **ASP.NET Core Web API**
+- **Entity Framework Core**
+- **JWT (Json Web Token)**
+- **Swagger/OpenAPI**
+- **xUnit + Moq**
+- **Arquitetura em Camadas (Clean Architecture + DDD)**
 
 ---
 
-## 🚀 Como rodar localmente
+## Como rodar localmente
 
 ### Pré-requisitos
 
@@ -136,3 +136,7 @@ FCG.Tests/             -> Testes unitários (xUnit)
 - Proteção de rotas com autorização e autenticação
 - Testes de unidade com xUnit e Moq
 - Documentação do Swagger
+
+  ## Autor
+  MVP Desenvolvido para a primeira etapa da Tech Challenge da FIAP
+  Aluno: João Vitor Gonçalves de Melo
