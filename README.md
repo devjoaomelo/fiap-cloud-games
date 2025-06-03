@@ -23,9 +23,7 @@ Os usuários podem se registrar, fazer login com autenticação JWT, comprar jog
 
 ---
 
-## Como rodar localmente
-
-### Pré-requisitos
+## Rodando Localmente
 
 - [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 - SQL Server (ou ajuste da connection string para outro banco compatível)
