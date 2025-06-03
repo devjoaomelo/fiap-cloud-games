@@ -65,13 +65,14 @@ Os usuários podem se registrar, fazer login com autenticação JWT, comprar jog
    http://localhost:{porta}/swagger
 ---
 
-## Autenticação e Autorização
+### Autenticação e Autorização
  - Jwt com roles(User, Admin)
  - Autorização feita via [Authorize(Roles="")]
  - Para fazer a autenticação use o endpoin de login e copie o Bearer
  - Cole o token no Swagger clicando em "Authorize"
+---
 
-## Exemplos Endpoints
+### Exemplos Endpoints
 (Completo no swagger)
 
 ### Autenticação
@@ -106,7 +107,7 @@ GET /api/usergames/games
 DELETE /api/usergames/games/{gameId}
 ```
 
-### Ações de Admin
+#### Ações de Admin
 
 ```bash
 GET /api/Admin/{userId}/games
@@ -117,7 +118,7 @@ DELETE /api/Admin/users/{userId}/games/{gameId}
 DELETE /api/Admin/{id}
 ```
 
-## Estrutura de Pastas
+### Estrutura de Pastas
 ```bash
 FCG.API/               -> Camada de apresentação (Controllers, Middlewares)
 FCG.Application/       -> Casos de uso (Use Cases)
@@ -125,8 +126,9 @@ FCG.Domain/            -> Entidades, ValueObjects e Interfaces
 FCG.Infra/             -> Repositórios e DataContext (EF Core)
 FCG.Tests/             -> Testes unitários (xUnit)
 ```
+---
 
-## Funcionalidades
+### Funcionalidades
 - Cadastro e login de usuários
 - Adquirir Jogos
 - Visualizar e remover jogos da biblioteca pessoal
@@ -134,7 +136,8 @@ FCG.Tests/             -> Testes unitários (xUnit)
 - Proteção de rotas com autorização e autenticação
 - Testes de unidade com xUnit e Moq
 - Documentação do Swagger
+---
 
-  ## Autor
-  MVP Desenvolvido para a primeira etapa da Tech Challenge da FIAP
-  Aluno: João Vitor Gonçalves de Melo
+### Autor
+MVP Desenvolvido para a primeira etapa da Tech Challenge da FIAP
+Aluno: João Vitor Gonçalves de Melo
