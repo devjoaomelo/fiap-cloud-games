@@ -3,6 +3,7 @@ using FCG.Application.UseCases.Games.DeleteGame;
 using FCG.Application.UseCases.Games.GetAllGames;
 using FCG.Application.UseCases.Games.GetGameById;
 using FCG.Application.UseCases.Games.UpdateGame;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FCG.API.Controllers;
@@ -30,7 +31,7 @@ public class GamesController : ControllerBase
         _updateGameHandler = updateGameHandler;
         _deleteGameHandler = deleteGameHandler;
     }
-
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> CreateGame([FromBody] CreateGameRequest request)
     {
@@ -41,7 +42,8 @@ public class GamesController : ControllerBase
         var result = await _createGameHandler.HandleCreateGameAsync(request);
         return CreatedAtAction(nameof(GetGameById), new { id = result.Id }, result);
     }
-
+    
+    [Authorize]
     [HttpGet]
     public async Task<IActionResult> GetAllGames()
     {
@@ -50,6 +52,7 @@ public class GamesController : ControllerBase
         return Ok(result);
     }
     
+    [Authorize]
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetGameById(Guid id)
     {
@@ -62,7 +65,7 @@ public class GamesController : ControllerBase
         
         return Ok(response);
     }
-
+    [Authorize(Roles = "Admin")]
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> UpdateGame(Guid id, [FromBody] UpdateGameRequest request)
     {
@@ -77,7 +80,8 @@ public class GamesController : ControllerBase
         var result = await _updateGameHandler.HandleUpdateGameAsync(request);
         return Ok(result);
     }
-
+    
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteGame(Guid id)
     {

@@ -1,6 +1,8 @@
+using System.Security.Claims;
 using FCG.Application.UseCases.UserGames.BuyGame;
 using FCG.Application.UseCases.UserGames.GetGamesByUser;
 using FCG.Application.UseCases.UserGames.RemoveGameFromUser;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FCG.API.Controllers;
@@ -23,27 +25,62 @@ public class UserGamesController : ControllerBase
         _removeGameHandler = removeGameHandler;
     }
 
-    [HttpPost("{userId}/games/{gameId}")]
-    public async Task<IActionResult> BuyGame(Guid userId, Guid gameId)
+    [Authorize]
+    [HttpGet("me/games")]
+    public async Task<IActionResult> GetCurrentUserGames()
     {
+        var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (string.IsNullOrEmpty(userIdClaim))
+        {
+            return Unauthorized("Invalid user claim");
+        }
+
+        if (!Guid.TryParse(userIdClaim, out var userId))
+        {
+            return BadRequest("Invalid user claim");
+        }
+
+        var response = await _getGamesByUserHandler.HandleGetGamesByUserAsync(new GetGamesByUserRequest(userId));
+        if (response == null)
+        {
+            return NoContent();
+        }
+        return Ok(response);
+    }
+    
+    [Authorize]
+    [HttpPost("games/{gameId:guid}")]
+    public async Task<IActionResult> BuyOwnGame(Guid gameId)
+    {
+        var loggedUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (string.IsNullOrEmpty(loggedUserId) || !Guid.TryParse(loggedUserId, out var userId))
+            return Unauthorized("Invalid user claim");
+
         var request = new BuyGameRequest(userId, gameId);
         var response = await _buyGameHandler.HandleBuyGameAsync(request);
         return Ok(response);
     }
-
-    [HttpGet("{userId}/games")]
-    public async Task<IActionResult> GetGamesByUser(Guid userId)
+    
+    [Authorize]
+    [HttpDelete("games/{gameId:guid}")]
+    public async Task<IActionResult> RemoveOwnGame(Guid gameId)
     {
-        var request = new GetGamesByUserRequest(userId);
-        var response = await _getGamesByUserHandler.HandleGetGamesByUserAsync(request);
-        return Ok(response);
-    }
+        var loggedUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-    [HttpDelete("{userId}/games/{gameId}")]
-    public async Task<IActionResult> RemoveGame(Guid userId, Guid gameId)
-    {
+        if (string.IsNullOrEmpty(loggedUserId) || !Guid.TryParse(loggedUserId, out var userId))
+            return Unauthorized("Invalid user claim");
+
         var request = new RemoveGameFromUserRequest(userId, gameId);
-        await _removeGameHandler.HandleRemoveGameFromUserAsync(request);
-        return NoContent();
+
+        try
+        {
+            await _removeGameHandler.HandleRemoveGameFromUserAsync(request);
+            return NoContent();
+        }
+        catch (InvalidOperationException ex)
+        {
+            return NotFound(new { Message = ex.Message });
+        }
     }
 }

@@ -1,5 +1,6 @@
 using FCG.Application.UseCases.Users.DeleteUser;
 using FCG.Domain.Entities;
+using FCG.Domain.Enums;
 using FCG.Domain.Interfaces;
 using FCG.Domain.ValueObjects;
 using Moq;

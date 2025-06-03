@@ -1,4 +1,5 @@
 ﻿using FCG.Domain.Entities;
+using FCG.Domain.Enums;
 using FCG.Domain.Interfaces;
 using FCG.Domain.ValueObjects;
 
@@ -15,11 +16,20 @@ public class CreateUserHandler
     public async Task<CreateUserResponse> HandleCreateUserAsync(CreateUserRequest request)
     {
         if (await _userRepository.ExistsUserByEmailAsync(request.Email))
+        {
             throw new InvalidOperationException("User with this email already exists.");
+        }
+        
+        var isFirstUser = !_userRepository.GetAllAsync().Result.Any();
 
         var email = new Email(request.Email);
         var password = new Password(request.Password);
         var user = new User(request.Name, email, password);
+
+        if (isFirstUser)
+        {
+            user.PromoteToAdmin();
+        }
 
         await _userRepository.CreateUserAsync(user);
 

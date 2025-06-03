@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using FCG.Application.UseCases.Users.CreateUser;
 using FCG.Application.UseCases.Users.DeleteUser;
 using FCG.Application.UseCases.Users.GetAllUsers;
@@ -54,9 +55,35 @@ public class UsersController : ControllerBase
         }
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
     }
+    
+    [Authorize]
+    [HttpGet("me")]
+    public async Task<IActionResult> GetCurrentUser()
+    {
+        var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+        if (string.IsNullOrEmpty(userIdClaim))
+        {
+            return Unauthorized("Invalid user claim");
+        }
+
+        if (!Guid.TryParse(userIdClaim, out var userId))
+        {
+            return BadRequest("Invalid user claim");
+        }
+
+        var response = await _getUserByIdHandler.HandleGetUserByIdAsync(new GetUserByIdRequest(userId));
+
+        if (response == null)
+        {
+            return NotFound("User not found");
+        }
+
+        return Ok(response);
+    }
+    
+    [Authorize(Roles = "Admin")]
     [HttpGet]
-
     public async Task<IActionResult> GetAll()
     {
         var result = await _getAllUsersHandler.HandleGetAllUsersAsync(new GetAllUsersRequest());
@@ -67,16 +94,16 @@ public class UsersController : ControllerBase
         return Ok(result);
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpGet("{id:guid}")]
-
     public async Task<IActionResult> GetById(Guid id)
     {
         var result = await _getUserByIdHandler.HandleGetUserByIdAsync(new GetUserByIdRequest(id));
         return Ok(result);
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpGet("email/{email}")]
-
     public async Task<IActionResult> GetByEmail(string email)
     {
         if (!ModelState.IsValid)
@@ -92,28 +119,21 @@ public class UsersController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPut("{id:guid}")]
-
-    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateUserRequest request)
+    [Authorize]
+    [HttpPut("me")]
+    public async Task<IActionResult> UpdateSelf([FromBody] UpdateUserRequest request)
     {
         if (!ModelState.IsValid)
-        {
             return BadRequest(ModelState);
-        }
-        if (id != request.Id) return BadRequest("ID mismatch.");
-        var result = await _updateUserHandler.HandleUpdateUserAsync(request);
-        return Ok(result);
-    }
 
-    [HttpDelete("{id:guid}")]
+        var loggedUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-    public async Task<IActionResult> Delete(Guid id)
-    {
-        var result = await _deleteUserHandler.HandleDeleteUserAsync(new DeleteUserRequest(id));
-        if (result is null)
+        if (request.Id.ToString() != loggedUserId)
         {
-            return NotFound("User not found");
+            return Forbid("You can only update your own data.");
         }
+        
+        var result = await _updateUserHandler.HandleUpdateUserAsync(request);
         return Ok(result);
     }
     

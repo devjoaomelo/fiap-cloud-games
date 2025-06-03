@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using FCG.Domain.ValueObjects;
 
 namespace FCG.Domain.Entities;
@@ -5,8 +6,11 @@ namespace FCG.Domain.Entities;
 public sealed class Game
 {
     public Guid Id { get; private set; }
+    [Required]
     public Title Title { get; private set; }
+    [Required]
     public Description Description { get; private set; }
+    [Required]
     public Price Price { get; private set; }
     public DateTime CreatedDate { get; private set; }
 
