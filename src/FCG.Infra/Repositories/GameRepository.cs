@@ -40,6 +40,6 @@ public class GameRepository : IGameRepository
 
     public async Task<Game?> GetGameByTitleAsync(string title)
     {
-        return await _context.Games.FirstOrDefaultAsync(g => g.Title == title);
+        return await _context.Games.FirstOrDefaultAsync(g => g.Title.Name == title);
     }
 }

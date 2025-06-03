@@ -13,7 +13,7 @@ public class GetUserByEmailHandler
     public async Task<GetUserByEmailResponse> HandleGetUserByEmailAsync(GetUserByEmailRequest request)
     {
         var user = await _userRepository.GetUserByEmailAsync(request.Email);
-        if (user == null)
+        if (user is null)
         {
             throw new InvalidOperationException("User not found.");
         }

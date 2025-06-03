@@ -15,6 +15,10 @@ public class UpdateGameHandler
 
     public async Task<UpdateGameResponse> HandleUpdateGameAsync(UpdateGameRequest request)
     {
+        if (string.IsNullOrWhiteSpace(request.Title))
+        {
+            throw new ArgumentException("Title is required.");
+        }
         var game = await _gameRepository.GetGameByIdAsync(request.Id);
 
         if (game == null)

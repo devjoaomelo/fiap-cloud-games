@@ -11,7 +11,7 @@ public class GetGamesByUserHandler
         _userGameRepository = userGameRepository;
     }
 
-    public async Task<IEnumerable<GetGamesByUserResponse>> HandleAsync(GetGamesByUserRequest request)
+    public async Task<IEnumerable<GetGamesByUserResponse>> HandleGetGamesByUserAsync(GetGamesByUserRequest request)
     {
         var userGames = await _userGameRepository.GetGamesByUserIdAsync(request.UserId);
 

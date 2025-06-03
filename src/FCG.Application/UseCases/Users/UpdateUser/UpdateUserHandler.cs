@@ -15,9 +15,11 @@ public class UpdateUserHandler
     {
         var user = await _userRepository.GetUserByIdAsync(request.Id);
 
-        if (user == null)
+        if (user is null)
+        {
             throw new InvalidOperationException("User not found");
-
+        }
+        
         var newPassword = new Password(request.NewPassword);
         user.Update(request.NewName, newPassword);
 

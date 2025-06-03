@@ -19,10 +19,10 @@ public class Password
         Hash = BCrypt.Net.BCrypt.HashPassword(password);
     }
 
-    private bool IsValid(string password)
+    private static bool IsValid(string password)
     {
         // Minimum 8 characters, 1 letter, 1 number, 1 special character
-        return Regex.IsMatch(password, @"^(?=.*\p{Lu})(?=.*\p{Ll})(?=.*\d)(?=.*[\p{P}\p{S}]).{8,}$");
+        return !string.IsNullOrWhiteSpace(password) && Regex.IsMatch(password, @"^(?=.*\p{Lu})(?=.*\p{Ll})(?=.*\d)(?=.*[\p{P}\p{S}]).{8,}$");
     }
 
     public override string ToString() => "[Protected]";

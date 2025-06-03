@@ -15,9 +15,9 @@ public class GetGameByIdHandler
     {
         var game = await _gameRepository.GetGameByIdAsync(request.GameId);
 
-        if (game == null)
+        if (game is null)
         {
-            throw new KeyNotFoundException($"Game with id {request.GameId} doesn't exist");
+            return null;
         }
 
         return new GetGameByIdResponse(game.Id, game.Title, game.Description.Text, game.Price, game.CreatedDate );

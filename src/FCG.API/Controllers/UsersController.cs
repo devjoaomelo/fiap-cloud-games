@@ -41,9 +41,17 @@ public class UsersController : ControllerBase
     }
     [HttpPost]
     [AllowAnonymous]
-    public async Task<IActionResult> Create([FromBody] CreateUserRequest request)
+    public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         var result = await _createUserHandler.HandleCreateUserAsync(request);
+        if (result is null)
+        {
+            throw new Exception("Failed to create user");
+        }
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
     }
 
@@ -52,6 +60,10 @@ public class UsersController : ControllerBase
     public async Task<IActionResult> GetAll()
     {
         var result = await _getAllUsersHandler.HandleGetAllUsersAsync(new GetAllUsersRequest());
+        if (result is null)
+        {
+            return NotFound();
+        }
         return Ok(result);
     }
 
@@ -67,7 +79,16 @@ public class UsersController : ControllerBase
 
     public async Task<IActionResult> GetByEmail(string email)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         var result = await _getUserByEmailHandler.HandleGetUserByEmailAsync(new GetUserByEmailRequest(email));
+        
+        if (result is null)
+        {
+            return NotFound("Email not found");
+        }
         return Ok(result);
     }
 
@@ -75,6 +96,10 @@ public class UsersController : ControllerBase
 
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdateUserRequest request)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         if (id != request.Id) return BadRequest("ID mismatch.");
         var result = await _updateUserHandler.HandleUpdateUserAsync(request);
         return Ok(result);
@@ -85,6 +110,10 @@ public class UsersController : ControllerBase
     public async Task<IActionResult> Delete(Guid id)
     {
         var result = await _deleteUserHandler.HandleDeleteUserAsync(new DeleteUserRequest(id));
+        if (result is null)
+        {
+            return NotFound("User not found");
+        }
         return Ok(result);
     }
     

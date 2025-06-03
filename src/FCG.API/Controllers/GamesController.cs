@@ -34,6 +34,10 @@ public class GamesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateGame([FromBody] CreateGameRequest request)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         var result = await _createGameHandler.HandleCreateGameAsync(request);
         return CreatedAtAction(nameof(GetGameById), new { id = result.Id }, result);
     }
@@ -42,6 +46,7 @@ public class GamesController : ControllerBase
     public async Task<IActionResult> GetAllGames()
     {
         var result = await _getAllGamesHandler.HandleGetAllGamesAsync(new GetAllGamesRequest());
+        
         return Ok(result);
     }
     
@@ -49,16 +54,25 @@ public class GamesController : ControllerBase
     public async Task<IActionResult> GetGameById(Guid id)
     {
         var request = new GetGameByIdRequest(id);
-        var result = await _getGameByIdHandler.HandleGetGameById(new GetGameByIdRequest(id));
-        return Ok(result);
+        var response = await _getGameByIdHandler.HandleGetGameById(new GetGameByIdRequest(id));
+        if (response is null)
+        {
+            return NotFound("Game not found");
+        }
+        
+        return Ok(response);
     }
 
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> UpdateGame(Guid id, [FromBody] UpdateGameRequest request)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         if (id != request.Id)
         {
-            return BadRequest("Ids do not match");
+            throw new ArgumentException("Ids do not match");
         }
         var result = await _updateGameHandler.HandleUpdateGameAsync(request);
         return Ok(result);
@@ -67,7 +81,11 @@ public class GamesController : ControllerBase
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteGame(Guid id)
     {
-        await _deleteGameHandler.HandleAsync(new DeleteGameRequest(id));
+        var response = await _deleteGameHandler.HandleDeleteGameAsync(new DeleteGameRequest(id));
+        if (response is null)
+        {
+            return NotFound("Game not found");
+        }
         return NoContent();
     }
 }

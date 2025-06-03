@@ -16,6 +16,10 @@ public class CreateGameHandler
     public async Task<CreateGameResponse> HandleCreateGameAsync(CreateGameRequest request)
     {
         var existingGame = await _gameRepository.GetGameByTitleAsync(request.Title);
+        if (string.IsNullOrWhiteSpace(request.Title))
+        {
+            throw new ArgumentException("Title is required");
+        }
         if (existingGame != null)
         {
             throw new ArgumentException($"Game with title '{request.Title}' already exists.");
