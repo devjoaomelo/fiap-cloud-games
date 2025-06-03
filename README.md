@@ -129,8 +129,8 @@ FCG.Tests/             -> Testes unitários (xUnit)
 ---
 
 ### Funcionalidades
-- Cadastro e login de usuários
-- Adquirir Jogos
+- Cadastro, login, Atualização e Exclusão de usuários
+- Adicionar, Atualizar, Adquirir, Excluir Jogos
 - Visualizar e remover jogos da biblioteca pessoal
 - Gerenciamento completo de admnistrador
 - Proteção de rotas com autorização e autenticação
