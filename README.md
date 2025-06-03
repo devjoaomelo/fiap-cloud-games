@@ -41,6 +41,7 @@ Os usuários podem se registrar, fazer login com autenticação JWT, comprar jog
    
 2. Aplicar migrations:
    ```bash
+   dotnet ef migrations add "FirstMigration"
    dotnet ef database update
    
 3. Rode a aplicação
