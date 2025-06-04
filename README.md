@@ -138,6 +138,9 @@ FCG.Tests/             -> Testes unitários (xUnit)
 - Documentação do Swagger
 ---
 
+### Documentação
+https://github.com/devjoaomelo/fiap-cloud-games/blob/main/Documentacao_FIAP_Cloud_Games.pdf
+
 ### Autor
 MVP Desenvolvido para a primeira etapa da Tech Challenge da FIAP
 Aluno: João Vitor Gonçalves de Melo
