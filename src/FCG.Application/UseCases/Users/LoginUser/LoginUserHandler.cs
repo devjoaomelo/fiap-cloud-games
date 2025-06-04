@@ -5,6 +5,7 @@ using BCrypt.Net;
 using FCG.Domain.Entities;
 using FCG.Domain.Interfaces;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 namespace FCG.Application.UseCases.Users.LoginUser;
@@ -13,11 +14,13 @@ public class LoginUserHandler
 {
     private readonly IUserRepository _userRepository;
     private readonly IConfiguration _configuration;
+    private readonly ILogger<LoginUserHandler> _logger;
 
-    public LoginUserHandler(IUserRepository userRepository, IConfiguration configuration)
+    public LoginUserHandler(IUserRepository userRepository, IConfiguration configuration, ILogger<LoginUserHandler> logger)
     {
         _userRepository = userRepository;
         _configuration = configuration;
+        _logger = logger;
     }
 
     public async Task<LoginUserResponse> HandleLoginUserAsync(LoginUserRequest loginUserRequest)
@@ -30,10 +33,12 @@ public class LoginUserHandler
         var user = await _userRepository.GetUserByEmailAsync(loginUserRequest.Email);
         if (user == null || !user.Password.Verify(loginUserRequest.Password))
         {
+            
             throw new UnauthorizedAccessException("Invalid credentials");
         }
 
         var token = GenerateToken(user);
+        _logger.LogInformation($"User {user.Name} logged in");
         return new LoginUserResponse(token);
 
     }

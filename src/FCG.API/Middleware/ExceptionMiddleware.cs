@@ -23,7 +23,6 @@ public class ExceptionMiddleware
         catch (Exception ex)
         {
             _logger.LogError("Erro: {ExceptionType} - {Message}", ex.GetType().Name, ex.Message);
-            
             await HandleExceptionAsync(context, ex, env);
         }
     }

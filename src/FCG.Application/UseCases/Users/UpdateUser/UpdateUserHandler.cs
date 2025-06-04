@@ -1,14 +1,17 @@
 ﻿using FCG.Domain.Interfaces;
 using FCG.Domain.ValueObjects;
+using Microsoft.Extensions.Logging;
 
 namespace FCG.Application.UseCases.Users.UpdateUser;
 public class UpdateUserHandler
 {
     private readonly IUserRepository _userRepository;
+    private readonly ILogger<UpdateUserHandler> _logger;
 
-    public UpdateUserHandler(IUserRepository userRepository)
+    public UpdateUserHandler(IUserRepository userRepository, ILogger<UpdateUserHandler> logger)
     {
         _userRepository = userRepository;
+        _logger = logger;
     }
 
     public async Task<UpdateUserResponse> HandleUpdateUserAsync(UpdateUserRequest request)
@@ -24,6 +27,7 @@ public class UpdateUserHandler
         user.Update(request.NewName, newPassword);
 
         await _userRepository.UpdateUserAsync(user);
+        _logger.LogInformation($"User {user.Name} updated");
         return new UpdateUserResponse(user.Id, user.Name, user.Email.Address);
     }
 }

@@ -15,15 +15,13 @@ using FCG.Application.UseCases.Users.GetUserByEmail;
 using FCG.Application.UseCases.Users.GetUserById;
 using FCG.Application.UseCases.Users.LoginUser;
 using FCG.Application.UseCases.Users.UpdateUser;
-using FCG.Domain.Entities;
-using FCG.Domain.Enums;
 using FCG.Domain.Interfaces;
-using FCG.Domain.ValueObjects;
 using FCG.Infra.Context;
 using FCG.Infra.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -105,16 +103,24 @@ builder.Services.AddDbContext<FCGDbContext>(options =>
     ));
 #endregion
 
+#region  Logger
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateLogger();
+
+builder.Host.UseSerilog(dispose: true);
+#endregion
 var app = builder.Build();
 app.UseMiddleware<ExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "FCG API v1");
+    });
 }
-
-
 
 app.UseHttpsRedirection();
 app.UseAuthentication();

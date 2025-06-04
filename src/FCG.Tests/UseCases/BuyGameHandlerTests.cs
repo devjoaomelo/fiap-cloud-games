@@ -4,6 +4,7 @@ using FCG.Application.UseCases.UserGames.BuyGame;
 using FCG.Domain.Interfaces;
 using FCG.Domain.Entities;
 using FCG.Domain.ValueObjects;
+using Microsoft.Extensions.Logging;
 
 namespace FCG.Tests.Application.UseCases.UserGames
 {
@@ -13,17 +14,20 @@ namespace FCG.Tests.Application.UseCases.UserGames
         private readonly Mock<IGameRepository> _gameRepositoryMock;
         private readonly Mock<IUserGameRepository> _userGameRepositoryMock;
         private readonly BuyGameHandler _handler;
+        private readonly Mock<ILogger<BuyGameHandler>> _loggerMock;
 
         public BuyGameHandlerTests()
         {
             _userRepositoryMock = new Mock<IUserRepository>();
             _gameRepositoryMock = new Mock<IGameRepository>();
             _userGameRepositoryMock = new Mock<IUserGameRepository>();
+            _loggerMock = new Mock<ILogger<BuyGameHandler>>();
 
             _handler = new BuyGameHandler(
                 _userRepositoryMock.Object,
                 _gameRepositoryMock.Object,
-                _userGameRepositoryMock.Object
+                _userGameRepositoryMock.Object,
+                _loggerMock.Object
             );
         }
 
