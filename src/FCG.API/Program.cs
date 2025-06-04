@@ -106,6 +106,7 @@ builder.Services.AddDbContext<FCGDbContext>(options =>
 #endregion
 
 var app = builder.Build();
+app.UseMiddleware<ExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
@@ -113,7 +114,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseExceptionMiddleware();
+
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
