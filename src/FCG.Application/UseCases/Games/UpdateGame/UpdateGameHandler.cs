@@ -8,12 +8,12 @@ namespace FCG.Application.UseCases.Games.UpdateGame;
 public class UpdateGameHandler
 {
     private readonly IGameRepository _gameRepository;
-    private readonly GameValidationService _gameValidationService;
+    private readonly IGameValidationService _gameValidationService;
 
-    public UpdateGameHandler(IGameRepository gameRepository)
+    public UpdateGameHandler(IGameRepository gameRepository, IGameValidationService gameValidationService)
     {
         _gameRepository = gameRepository;
-        _gameValidationService = new GameValidationService(_gameRepository);
+        _gameValidationService = gameValidationService;
     }
 
     public async Task<UpdateGameResponse> HandleUpdateGameAsync(UpdateGameRequest request)

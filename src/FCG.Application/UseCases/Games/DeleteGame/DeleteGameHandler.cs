@@ -6,17 +6,17 @@ namespace FCG.Application.UseCases.Games.DeleteGame;
 public class DeleteGameHandler
 {
     private readonly IGameRepository _gameRepository;
-    private readonly GameValidationService _gameValidationService;
+    private readonly IGameValidationService _gameValidationService;
 
-    public DeleteGameHandler(IGameRepository gameRepository)
+    public DeleteGameHandler(IGameRepository gameRepository, IGameValidationService gameValidationService)
     {
         _gameRepository = gameRepository;
-        _gameValidationService = new GameValidationService(_gameRepository);
+        _gameValidationService = gameValidationService;
     }
 
     public async Task<DeleteGameResponse> HandleDeleteGameAsync(DeleteGameRequest request)
     {
-        var game = await _gameRepository.GetGameByIdAsync(request.Id);
+        var game = await _gameValidationService.GetGameIfExistsAsync(request.Id);
         
         await _gameRepository.DeleteGameAsync(game);
         

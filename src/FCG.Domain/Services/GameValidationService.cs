@@ -3,7 +3,7 @@ using FCG.Domain.Interfaces;
 
 namespace FCG.Domain.Services;
 
-public class GameValidationService
+public class GameValidationService : IGameValidationService
 {
     private readonly IGameRepository _gameRepository;
 

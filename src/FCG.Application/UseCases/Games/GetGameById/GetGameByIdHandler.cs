@@ -6,12 +6,12 @@ namespace FCG.Application.UseCases.Games.GetGameById;
 public class GetGameByIdHandler
 {
     private readonly IGameRepository _gameRepository;
-    private readonly GameValidationService _gameValidationService;
+    private readonly IGameValidationService _gameValidationService;
 
-    public GetGameByIdHandler(IGameRepository gameRepository)
+    public GetGameByIdHandler(IGameRepository gameRepository, IGameValidationService gameValidationService)
     {
         _gameRepository = gameRepository;
-        _gameValidationService = new GameValidationService(_gameRepository);
+        _gameValidationService = gameValidationService;
     }
 
     public async Task<GetGameByIdResponse> HandleGetGameById(GetGameByIdRequest request)

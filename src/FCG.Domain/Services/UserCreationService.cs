@@ -4,7 +4,7 @@ using FCG.Domain.ValueObjects;
 
 namespace FCG.Domain.Services;
 
-public class UserCreationService
+public class UserCreationService : IUserCreationService
 {
     private readonly IUserRepository _userRepository;
 

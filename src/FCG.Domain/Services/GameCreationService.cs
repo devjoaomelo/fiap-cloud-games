@@ -4,7 +4,7 @@ using FCG.Domain.ValueObjects;
 
 namespace FCG.Domain.Services;
 
-public class GameCreationService
+public class GameCreationService : IGameCreationService
 {
     private readonly IGameRepository _gameRepository;
 

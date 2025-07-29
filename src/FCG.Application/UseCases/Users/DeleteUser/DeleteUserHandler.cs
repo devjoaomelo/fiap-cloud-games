@@ -5,12 +5,12 @@ namespace FCG.Application.UseCases.Users.DeleteUser;
 public class DeleteUserHandler
 {
     private readonly IUserRepository _userRepository;
-    private readonly UserValidationService _userValidationService;
+    private readonly IUserValidationService _userValidationService;
 
-    public DeleteUserHandler(IUserRepository userRepository)
+    public DeleteUserHandler(IUserRepository userRepository, IUserValidationService userValidationService)
     {
         _userRepository = userRepository;
-        _userValidationService = new UserValidationService(_userRepository);
+        _userValidationService = userValidationService;
     }
 
     public async Task<DeleteUserResponse> HandleDeleteUserAsync(DeleteUserRequest request)

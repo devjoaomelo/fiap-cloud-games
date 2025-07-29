@@ -6,12 +6,12 @@ namespace FCG.Application.UseCases.Games.CreateGame;
 public class CreateGameHandler
 {
     private readonly IGameRepository _gameRepository;
-    private readonly GameCreationService _gameCreationService;
+    private readonly IGameCreationService _gameCreationService;
 
-    public CreateGameHandler(IGameRepository gameRepository)
+    public CreateGameHandler(IGameRepository gameRepository, IGameCreationService gameCreationService)
     {
         _gameRepository = gameRepository;
-        _gameCreationService = new GameCreationService(_gameRepository);
+        _gameCreationService = gameCreationService;
     }
 
     public async Task<CreateGameResponse> HandleCreateGameAsync(CreateGameRequest request)

@@ -3,7 +3,7 @@ using FCG.Domain.Interfaces;
 
 namespace FCG.Domain.Services;
 
-public class UserValidationService
+public class UserValidationService : IUserValidationService
 {
     private readonly IUserRepository _userRepository;
 
