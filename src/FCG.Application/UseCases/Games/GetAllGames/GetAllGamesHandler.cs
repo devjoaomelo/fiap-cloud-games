@@ -1,4 +1,6 @@
+using FCG.Domain.Entities;
 using FCG.Domain.Interfaces;
+using FCG.Domain.Services;
 
 namespace FCG.Application.UseCases.Games.GetAllGames;
 
@@ -15,6 +17,12 @@ public class GetAllGamesHandler
     {
         var games = await _gameRepository.GetAllGamesAsync();
 
-        return games.Select(g => new GetAllGamesResponse(g.Id, g.Title, g.Description.Text, g.Price, g.CreatedDate));
+        var responses = games.Select(game => new GetAllGamesResponse(game.Id,
+            game.Title,
+            game.Description.Text,
+            game.Price,
+            game.CreatedDate));
+        
+        return responses;
     }
 }
