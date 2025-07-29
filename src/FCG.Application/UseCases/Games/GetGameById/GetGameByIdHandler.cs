@@ -5,12 +5,10 @@ namespace FCG.Application.UseCases.Games.GetGameById;
 
 public class GetGameByIdHandler
 {
-    private readonly IGameRepository _gameRepository;
     private readonly IGameValidationService _gameValidationService;
 
-    public GetGameByIdHandler(IGameRepository gameRepository, IGameValidationService gameValidationService)
+    public GetGameByIdHandler(IGameValidationService gameValidationService)
     {
-        _gameRepository = gameRepository;
         _gameValidationService = gameValidationService;
     }
 

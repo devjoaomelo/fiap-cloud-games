@@ -22,4 +22,24 @@ public class UserValidationService : IUserValidationService
 
         return user;
     }
+
+    public async Task<User> GetUserByEmailAsync(string email)
+    {
+        if(email is null) throw new ArgumentException("email can't be empty", nameof(email));
+        
+        var user = await _userRepository.GetUserByEmailAsync(email);
+        
+        if(user is null) throw new ArgumentException("User doesn't exists", nameof(email));
+        
+        return user;
+    }
+
+    public async Task<IEnumerable<User>> GetAllUsersAsync()
+    {
+        IEnumerable<User> users = await _userRepository.GetAllAsync();
+        
+        if(users is null || !users.Any()) throw new ArgumentException("No users found", nameof(users));
+        
+        return users;
+    }
 }

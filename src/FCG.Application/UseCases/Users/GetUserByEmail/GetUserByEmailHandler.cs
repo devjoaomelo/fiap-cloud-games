@@ -3,20 +3,18 @@
 namespace FCG.Application.UseCases.Users.GetUserByEmail;
 public class GetUserByEmailHandler
 {
-    private readonly IUserRepository _userRepository;
 
-    public GetUserByEmailHandler(IUserRepository userRepository)
+    private readonly IUserValidationService _userValidationService;
+
+    public GetUserByEmailHandler(IUserValidationService userValidationService)
     {
-        _userRepository = userRepository;
+        _userValidationService = userValidationService;
     }
 
     public async Task<GetUserByEmailResponse> HandleGetUserByEmailAsync(GetUserByEmailRequest request)
     {
-        var user = await _userRepository.GetUserByEmailAsync(request.Email);
-        if (user is null)
-        {
-            throw new InvalidOperationException("User not found.");
-        }
+        var user = await _userValidationService.GetUserByEmailAsync(request.Email);
+
         return new GetUserByEmailResponse(user.Id, user.Name, user.Email.Address, user.Profile.ToString());
     }
 }

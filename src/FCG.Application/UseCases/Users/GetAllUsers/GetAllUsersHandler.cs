@@ -3,20 +3,17 @@
 namespace FCG.Application.UseCases.Users.GetAllUsers;
 public class GetAllUsersHandler
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IUserValidationService _userValidationService;
 
-    public GetAllUsersHandler(IUserRepository userRepository)
+    public GetAllUsersHandler(IUserValidationService userValidationService)
     {
-        _userRepository = userRepository;
+        _userValidationService = userValidationService;
     }
 
     public async Task<IEnumerable<GetAllUsersResponse>> HandleGetAllUsersAsync(GetAllUsersRequest request)
     {
-        var users = await _userRepository.GetAllAsync();
-        if (users == null || !users.Any())
-        {
-            throw new InvalidOperationException("No users found");
-        }
+        var users = await _userValidationService.GetAllUsersAsync();
+        
         return users.Select(user => new GetAllUsersResponse(user.Id, user.Name, user.Email.Address, user.Profile.ToString()));
     }
 }

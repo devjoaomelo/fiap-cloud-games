@@ -4,19 +4,16 @@ namespace FCG.Application.UseCases.Users.GetUserById;
 
 public class GetUserByIdHandler
 {
-    private readonly IUserRepository _userRepository;
-    public GetUserByIdHandler(IUserRepository userRepository)
+    private readonly IUserValidationService _userValidationService;
+    public GetUserByIdHandler(IUserValidationService userValidationService)
     {
-        _userRepository = userRepository;
+        _userValidationService = userValidationService;
     }
 
     public async Task<GetUserByIdResponse> HandleGetUserByIdAsync(GetUserByIdRequest request)
     {
-        var user = await _userRepository.GetUserByIdAsync(request.Id);
-
-        if (user == null)
-            throw new InvalidOperationException("User not found.");
-
+        var user = await _userValidationService.GetUserIfExistsAsync(request.Id);
+        
         return new GetUserByIdResponse(user.Id, user.Name, user.Email.ToString(), user.Profile.ToString());
     }
 }

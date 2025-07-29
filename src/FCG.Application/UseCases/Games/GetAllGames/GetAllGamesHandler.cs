@@ -6,16 +6,17 @@ namespace FCG.Application.UseCases.Games.GetAllGames;
 
 public class GetAllGamesHandler
 {
-    private readonly IGameRepository _gameRepository;
+    
+    private readonly IGameValidationService _gameValidationService;
 
-    public GetAllGamesHandler(IGameRepository gameRepository)
+    public GetAllGamesHandler(IGameValidationService gameValidationService)
     {
-        _gameRepository = gameRepository;
+        _gameValidationService = gameValidationService;
     }
 
     public async Task<IEnumerable<GetAllGamesResponse>> HandleGetAllGamesAsync(GetAllGamesRequest request)
     {
-        var games = await _gameRepository.GetAllGamesAsync();
+        var games = await _gameValidationService.GetAllGamesAsync();
 
         var responses = games.Select(game => new GetAllGamesResponse(game.Id,
             game.Title,

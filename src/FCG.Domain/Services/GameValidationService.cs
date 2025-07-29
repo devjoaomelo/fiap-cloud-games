@@ -24,4 +24,13 @@ public class GameValidationService : IGameValidationService
 
         return game;
     }
+    
+    public async Task <IEnumerable<Game>> GetAllGamesAsync()
+    {
+        var games = await _gameRepository.GetAllGamesAsync();
+        
+        if(games is null || !games.Any()) throw new InvalidOperationException("No games found.");
+        
+        return games;
+    }
 }
