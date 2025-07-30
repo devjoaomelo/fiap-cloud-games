@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace FCG.Domain.Entities;
 
 public class UserGame

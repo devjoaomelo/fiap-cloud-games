@@ -5,27 +5,22 @@ namespace FCG.Application.UseCases.UserGames.RemoveGameFromUser;
 
 public class RemoveGameFromUserHandler
 {
-    private readonly IUserGameRepository _userGameRepository;
+    private readonly IUserGameRemovalService _removalService;
     private readonly ILogger<RemoveGameFromUserHandler> _logger;
 
-    public RemoveGameFromUserHandler(IUserGameRepository userGameRepository, ILogger<RemoveGameFromUserHandler> logger)
+    public RemoveGameFromUserHandler(IUserGameRemovalService removalService,
+        ILogger<RemoveGameFromUserHandler> logger)
     {
-        _userGameRepository = userGameRepository;
+        _removalService = removalService;
         _logger = logger;
     }
 
-    public async Task<RemoveGameFromUserResponse> HandleRemoveGameFromUserAsync(RemoveGameFromUserRequest request)
+    public async Task<RemoveGameFromUserResponse> HandleRemoveGameAsync(RemoveGameFromUserRequest request)
     {
-        var userGame = await _userGameRepository.GetUserGamePurchaseAsync(request.UserId, request.GameId);
-        if (userGame == null)
-        {
-            _logger.LogWarning("User has not purchased this game");
-            throw new InvalidOperationException("User has not purchased this game.");
-        }
-        await _userGameRepository.RemoveUserGameAsync(userGame);
-        
-        _logger.LogInformation($"Game {request.GameId} removed from user {request.UserId}.");
+        await _removalService.RemoveGameAsync(request.UserId, request.GameId);
+        _logger.LogInformation("Game {GameId} removed from user {UserId}.",
+            request.GameId, request.UserId);
 
-        return new RemoveGameFromUserResponse(true, "Game has been removed from this user.");
+        return new RemoveGameFromUserResponse(true, "Game removed successfully.");
     }
 }

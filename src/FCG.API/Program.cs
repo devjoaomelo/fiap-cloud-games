@@ -23,6 +23,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using FCG.Application.Interfaces;
+using FCG.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,7 +52,9 @@ builder.Services.AddScoped<IGameCreationService, GameCreationService>();
 builder.Services.AddScoped<IUserValidationService, UserValidationService>();
 builder.Services.AddScoped<IGameValidationService, GameValidationService>();
 builder.Services.AddScoped<IUserGamePurchaseService, UserGamePurchaseService>();
-
+builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
+builder.Services.AddSingleton<ITokenService, TokenService>();
+builder.Services.AddScoped<IUserGameRemovalService, UserGameRemovalService>();
 
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
@@ -63,7 +67,7 @@ builder.Services.AddAuthentication("Bearer")
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:SecretKey"] 
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"] 
                 ?? throw new InvalidOperationException("JWT:SecretKey is missing.")))
         };
     });
