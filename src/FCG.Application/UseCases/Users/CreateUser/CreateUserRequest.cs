@@ -3,11 +3,11 @@
 namespace FCG.Application.UseCases.Users.CreateUser;
 public class CreateUserRequest
 {
-    [Required]
+    [Required, MinLength(3)]
     public string Name { get; init; }
-    [Required]
+    [Required, EmailAddress]
     public string Email { get; init; }
-    [Required]
+    [Required, MinLength(6)]
     public string Password { get; init; }
 
     public CreateUserRequest(string name, string email, string password)
