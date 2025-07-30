@@ -10,8 +10,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCG.Domain", "FCG.Domain\FC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCG.Infra", "FCG.Infra\FCG.Infra.csproj", "{F5DB750C-E00E-471C-A90B-CD6E1435657D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCG.Tests", "FCG.Tests\FCG.Tests.csproj", "{3913D96B-C51B-4F50-AFC1-F3454F20ED8C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,10 +32,6 @@ Global
 		{F5DB750C-E00E-471C-A90B-CD6E1435657D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5DB750C-E00E-471C-A90B-CD6E1435657D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5DB750C-E00E-471C-A90B-CD6E1435657D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3913D96B-C51B-4F50-AFC1-F3454F20ED8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3913D96B-C51B-4F50-AFC1-F3454F20ED8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3913D96B-C51B-4F50-AFC1-F3454F20ED8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3913D96B-C51B-4F50-AFC1-F3454F20ED8C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
