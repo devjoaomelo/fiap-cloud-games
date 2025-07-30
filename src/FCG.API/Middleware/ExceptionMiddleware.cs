@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text.Json;
+using FCG.API.Models;
 
 namespace FCG.API.Middleware;
 
@@ -38,16 +39,17 @@ public class ExceptionMiddleware
             _ => HttpStatusCode.InternalServerError
         };
 
-        var response = new
+        var response = new ErrorResponse
         {
-            Status = (int)statusCode,
+            StatusCode = (int)statusCode,
             Error = ex.GetType().Name,
             Message = ex.Message,
+            StackTrace = env.IsDevelopment() ? ex.StackTrace : null
         };
 
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = (int)statusCode;
-        
+
         await context.Response.WriteAsync(JsonSerializer.Serialize(response));
     }
 }
