@@ -32,4 +32,8 @@
     <ProjectReference Include="..\FCG.Infra\FCG.Infra.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UseCases\" />
+  </ItemGroup>
+
 </Project>
