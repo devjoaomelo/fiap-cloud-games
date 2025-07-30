@@ -1,4 +1,4 @@
-# FIAP Cloud Games (FCG)
+# FIAP Cloud Games (FCG) (Em desenvolvimento da segunda etapa)
 
 API RESTful desenvolvida para gerenciamento de usuários e biblioteca de jogos.
 
