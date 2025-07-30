@@ -19,6 +19,12 @@ public class UserGameRepository : IUserGameRepository
         await _context.Set<UserGame>().AddAsync(userGame);
         await _context.SaveChangesAsync();
     }
+    
+    public async Task<bool> UserOwnsGameAsync(Guid userId, Guid gameId)
+    {
+        return await _context.UserGames
+            .AnyAsync(ug => ug.UserId == userId && ug.GameId == gameId);
+    }
 
     public async Task<UserGame?> GetUserGamePurchaseAsync(Guid userId, Guid gameId)
     {

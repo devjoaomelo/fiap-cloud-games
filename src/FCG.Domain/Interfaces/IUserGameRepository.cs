@@ -8,4 +8,6 @@ public interface IUserGameRepository
     Task<UserGame?> GetUserGamePurchaseAsync(Guid userId, Guid gameId);
     Task<List<UserGame>> GetGamesByUserIdAsync(Guid userId);
     Task RemoveUserGameAsync(UserGame userGame);
+    Task<bool> UserOwnsGameAsync(Guid userId, Guid gameId);
+    
 }

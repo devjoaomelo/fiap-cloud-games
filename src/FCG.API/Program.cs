@@ -16,6 +16,7 @@ using FCG.Application.UseCases.Users.GetUserById;
 using FCG.Application.UseCases.Users.LoginUser;
 using FCG.Application.UseCases.Users.UpdateUser;
 using FCG.Domain.Interfaces;
+using FCG.Domain.Services;
 using FCG.Infra.Context;
 using FCG.Infra.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -44,6 +45,12 @@ builder.Services.AddScoped<LoginUserHandler>();
 builder.Services.AddScoped<BuyGameHandler>();
 builder.Services.AddScoped <GetGamesByUserHandler>();
 builder.Services.AddScoped<RemoveGameFromUserHandler>();
+builder.Services.AddScoped<IUserCreationService, UserCreationService>();
+builder.Services.AddScoped<IGameCreationService, GameCreationService>();
+builder.Services.AddScoped<IUserValidationService, UserValidationService>();
+builder.Services.AddScoped<IGameValidationService, GameValidationService>();
+builder.Services.AddScoped<IUserGamePurchaseService, UserGamePurchaseService>();
+
 
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
