@@ -1,7 +1,5 @@
 using System.Security.Claims;
-using FCG.Application.UseCases.UserGames.BuyGame;
-using FCG.Application.UseCases.UserGames.GetGamesByUser;
-using FCG.Application.UseCases.UserGames.RemoveGameFromUser;
+using FCG.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,18 +10,15 @@ namespace FCG.API.Controllers;
 [Authorize]
 public class UserGamesController : ControllerBase
 {
-    private readonly BuyGameHandler               _buyGameHandler;
-    private readonly GetGamesByUserHandler        _getGamesByUserHandler;
-    private readonly RemoveGameFromUserHandler    _removeGameHandler;
+    private readonly IUserGameQueryService _queryService;
+    private readonly IUserGameCommandService _commandService;
 
     public UserGamesController(
-        BuyGameHandler            buyGameHandler,
-        GetGamesByUserHandler     getGamesByUserHandler,
-        RemoveGameFromUserHandler removeGameHandler)
+        IUserGameQueryService queryService,
+        IUserGameCommandService commandService)
     {
-        _buyGameHandler        = buyGameHandler;
-        _getGamesByUserHandler = getGamesByUserHandler;
-        _removeGameHandler     = removeGameHandler;
+        _queryService = queryService;
+        _commandService = commandService;
     }
 
     // ───────────── GET /api/user-games ─────────────
@@ -34,7 +29,7 @@ public class UserGamesController : ControllerBase
         if (!Guid.TryParse(claim, out var userId))
             return Unauthorized("Invalid user claim");
 
-        var response = await _getGamesByUserHandler.HandleGetGamesByUserAsync(new GetGamesByUserRequest(userId));
+        var response = await _queryService.GetGamesByUserAsync(userId);
         return Ok(response);
     }
 
@@ -46,7 +41,7 @@ public class UserGamesController : ControllerBase
         if (!Guid.TryParse(claim, out var userId))
             return Unauthorized("Invalid user claim");
 
-        var response = await _buyGameHandler.HandleBuyGameAsync(new BuyGameRequest(userId, gameId));
+        var response = await _commandService.BuyGameAsync(userId, gameId);
         return Ok(response);
     }
 
@@ -58,7 +53,7 @@ public class UserGamesController : ControllerBase
         if (!Guid.TryParse(claim, out var userId))
             return Unauthorized("Invalid user claim");
 
-        await _removeGameHandler.HandleRemoveGameAsync(new RemoveGameFromUserRequest(userId, gameId));
-        return NoContent();
+        var response = await _commandService.RemoveGameAsync(userId, gameId);
+        return Ok(response);
     }
 }

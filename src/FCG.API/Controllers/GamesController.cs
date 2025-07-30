@@ -1,10 +1,8 @@
-using FCG.Application.UseCases.Games.CreateGame;
-using FCG.Application.UseCases.Games.DeleteGame;
-using FCG.Application.UseCases.Games.GetAllGames;
-using FCG.Application.UseCases.Games.GetGameById;
-using FCG.Application.UseCases.Games.UpdateGame;
+using FCG.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using FCG.Application.UseCases.Games.CreateGame;
+using FCG.Application.UseCases.Games.UpdateGame;
 
 namespace FCG.API.Controllers;
 
@@ -12,84 +10,57 @@ namespace FCG.API.Controllers;
 [Route("api/[controller]")]
 public class GamesController : ControllerBase
 {
-    private readonly CreateGameHandler _createGameHandler;
-    private readonly GetAllGamesHandler _getAllGamesHandler;
-    private readonly GetGameByIdHandler _getGameByIdHandler;
-    private readonly UpdateGameHandler _updateGameHandler;
-    private readonly DeleteGameHandler _deleteGameHandler;
+    private readonly IGameQueryService _queryService;
+    private readonly IGameCommandService _commandService;
 
     public GamesController(
-        CreateGameHandler createGameHandler,
-        GetAllGamesHandler getAllGamesHandler,
-        GetGameByIdHandler getGameByIdHandler,
-        UpdateGameHandler updateGameHandler,
-        DeleteGameHandler deleteGameHandler)
+        IGameQueryService queryService,
+        IGameCommandService commandService)
     {
-        _createGameHandler = createGameHandler;
-        _getAllGamesHandler = getAllGamesHandler;
-        _getGameByIdHandler = getGameByIdHandler;
-        _updateGameHandler = updateGameHandler;
-        _deleteGameHandler = deleteGameHandler;
+        _queryService = queryService;
+        _commandService = commandService;
     }
+
     [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> CreateGame([FromBody] CreateGameRequest request)
     {
         if (!ModelState.IsValid)
-        {
             return BadRequest(ModelState);
-        }
-        var result = await _createGameHandler.HandleCreateGameAsync(request);
-        return CreatedAtAction(nameof(GetGameById), new { id = result.Id }, result);
+
+        var response = await _commandService.CreateAsync(request);
+        return Ok(response);
     }
-    
+
     [Authorize]
     [HttpGet]
     public async Task<IActionResult> GetAllGames()
     {
-        var result = await _getAllGamesHandler.HandleGetAllGamesAsync(new GetAllGamesRequest());
-        
-        return Ok(result);
+        var response = await _queryService.GetAllAsync();
+        return Ok(response);
     }
-    
+
     [Authorize]
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetGameById(Guid id)
     {
-        var request = new GetGameByIdRequest(id);
-        var response = await _getGameByIdHandler.HandleGetGameById(new GetGameByIdRequest(id));
-        if (response is null)
-        {
-            return NotFound("Game not found");
-        }
-        
+        var response = await _queryService.GetByIdAsync(id);
         return Ok(response);
     }
+
     [Authorize(Roles = "Admin")]
-    [HttpPut("{id:guid}")]
-    public async Task<IActionResult> UpdateGame(Guid id, [FromBody] UpdateGameRequest request)
+    [HttpPut]
+    public async Task<IActionResult> UpdateGame([FromBody] UpdateGameRequest request)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        if (id != request.Id)
-        {
-            throw new ArgumentException("Ids do not match");
-        }
-        var result = await _updateGameHandler.HandleUpdateGameAsync(request);
-        return Ok(result);
+        var response = await _commandService.UpdateAsync(request);
+        return Ok(response);
     }
-    
+
     [Authorize(Roles = "Admin")]
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteGame(Guid id)
     {
-        var response = await _deleteGameHandler.HandleDeleteGameAsync(new DeleteGameRequest(id));
-        if (response is null)
-        {
-            return NotFound("Game not found");
-        }
-        return NoContent();
+        var response = await _commandService.DeleteAsync(id);
+        return Ok(response);
     }
 }

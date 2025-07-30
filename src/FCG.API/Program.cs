@@ -29,9 +29,8 @@ using FCG.Application.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 #region Services
-builder.Services.AddScoped<IGameRepository, GameRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUserGameRepository, UserGameRepository>();
+
+// Handlers
 builder.Services.AddScoped<CreateUserHandler>();
 builder.Services.AddScoped<CreateGameHandler>();
 builder.Services.AddScoped<GetAllUsersHandler>();
@@ -47,6 +46,8 @@ builder.Services.AddScoped<LoginUserHandler>();
 builder.Services.AddScoped<BuyGameHandler>();
 builder.Services.AddScoped <GetGamesByUserHandler>();
 builder.Services.AddScoped<RemoveGameFromUserHandler>();
+
+// Interfaces
 builder.Services.AddScoped<IUserCreationService, UserCreationService>();
 builder.Services.AddScoped<IGameCreationService, GameCreationService>();
 builder.Services.AddScoped<IUserValidationService, UserValidationService>();
@@ -55,6 +56,16 @@ builder.Services.AddScoped<IUserGamePurchaseService, UserGamePurchaseService>();
 builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
 builder.Services.AddSingleton<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserGameRemovalService, UserGameRemovalService>();
+builder.Services.AddScoped<IUserQueryService, UserQueryService>();
+builder.Services.AddScoped<IUserCommandService, UserCommandService>();
+builder.Services.AddScoped<IGameQueryService, GameQueryService>();
+builder.Services.AddScoped<IGameCommandService, GameCommandService>();
+builder.Services.AddScoped<IGameRepository, GameRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserGameRepository, UserGameRepository>();
+builder.Services.AddScoped<IUserGameQueryService, UserGameQueryService>();
+builder.Services.AddScoped<IUserGameCommandService, UserGameCommandService>();
+builder.Services.AddScoped<IUserSelfService, UserSelfService>();
 
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>

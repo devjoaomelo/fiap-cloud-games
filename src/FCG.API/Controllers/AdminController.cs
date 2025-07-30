@@ -1,10 +1,7 @@
-using FCG.Application.UseCases.Users.DeleteUser;
-using FCG.Application.UseCases.Users.GetAllUsers;
-using FCG.Application.UseCases.Users.GetUserByEmail;
-using FCG.Application.UseCases.Users.GetUserById;
-using FCG.Application.UseCases.Users.UpdateUser;
+using FCG.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using FCG.Application.UseCases.Users.UpdateUser;
 
 namespace FCG.API.Controllers;
 
@@ -13,60 +10,39 @@ namespace FCG.API.Controllers;
 [Authorize(Roles = "Admin")]
 public class AdminController : ControllerBase
 {
-    private readonly GetAllUsersHandler    _getAllUsers;
-    private readonly GetUserByIdHandler    _getById;
-    private readonly GetUserByEmailHandler _getByEmail;
-    private readonly UpdateUserHandler     _updateUser;
-    private readonly DeleteUserHandler     _deleteUser;
+    private readonly IUserQueryService _queryService;
+    private readonly IUserCommandService _commandService;
 
     public AdminController(
-        GetAllUsersHandler    getAllUsers,
-        GetUserByIdHandler    getById,
-        GetUserByEmailHandler getByEmail,
-        UpdateUserHandler     updateUser,
-        DeleteUserHandler     deleteUser)
+        IUserQueryService queryService,
+        IUserCommandService commandService)
     {
-        _getAllUsers = getAllUsers;
-        _getById     = getById;
-        _getByEmail  = getByEmail;
-        _updateUser  = updateUser;
-        _deleteUser  = deleteUser;
+        _queryService = queryService;
+        _commandService = commandService;
     }
 
     // ───────────── GET /api/admin/users ─────────────
     [HttpGet]
     public async Task<IActionResult> GetAll()
-        => Ok(await _getAllUsers.HandleGetAllUsersAsync(new GetAllUsersRequest()));
+        => Ok(await _queryService.GetAllAsync());
 
     // ───────────── GET /api/admin/users/{id} ─────────────
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
-        => Ok(await _getById.HandleGetUserByIdAsync(new GetUserByIdRequest(id)));
+        => Ok(await _queryService.GetByIdAsync(id));
 
     // ───────────── GET /api/admin/users/email/{email} ─────────────
     [HttpGet("email/{email}")]
     public async Task<IActionResult> GetByEmail(string email)
-    {
-        var res = await _getByEmail.HandleGetUserByEmailAsync(new GetUserByEmailRequest(email));
-        return res is null ? NotFound("Email not found") : Ok(res);
-    }
+        => Ok(await _queryService.GetByEmailAsync(email));
 
-    // ───────────── PUT /api/admin/users/{id} ─────────────
-    [HttpPut("{id:guid}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateUserRequest req)
-    {
-        if (!ModelState.IsValid) return BadRequest(ModelState);
-        if (id != req.Id) return BadRequest("ID mismatch");
-
-        var result = await _updateUser.HandleUpdateUserAsync(req);
-        return Ok(result);
-    }
+    // ───────────── PUT /api/admin/users ─────────────
+    [HttpPut]
+    public async Task<IActionResult> Update(UpdateUserRequest request)
+        => Ok(await _commandService.UpdateUserAsync(request));
 
     // ───────────── DELETE /api/admin/users/{id} ─────────────
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
-    {
-        await _deleteUser.HandleDeleteUserAsync(new DeleteUserRequest(id));
-        return NoContent();
-    }
+        => Ok(await _commandService.DeleteUserAsync(id));
 }
