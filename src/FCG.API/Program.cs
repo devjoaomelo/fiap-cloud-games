@@ -133,7 +133,6 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.UseSerilog(dispose: true);
 #endregion
 var app = builder.Build();
-app.UseMiddleware<ExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
@@ -144,6 +143,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseExceptionMiddleware();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();  

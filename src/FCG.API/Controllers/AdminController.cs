@@ -39,7 +39,12 @@ public class AdminController : ControllerBase
     // ───────────── PUT /api/admin/users ─────────────
     [HttpPut]
     public async Task<IActionResult> Update(UpdateUserRequest request)
-        => Ok(await _commandService.UpdateUserAsync(request));
+    {
+        if(!ModelState.IsValid) return BadRequest(ModelState);
+        
+        return Ok(await _commandService.UpdateUserAsync(request));
+    }
+        
 
     // ───────────── DELETE /api/admin/users/{id} ─────────────
     [HttpDelete("{id:guid}")]

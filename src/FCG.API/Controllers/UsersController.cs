@@ -36,6 +36,8 @@ public class UsersController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginUserRequest request)
     {
+        if(!ModelState.IsValid) return BadRequest(ModelState);
+        
         var result = await _selfService.LoginAsync(request);
         return Ok(result);
     }

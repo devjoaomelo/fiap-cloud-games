@@ -22,7 +22,7 @@ public sealed class Game
         Title = title;
         Description = description;
         Price = price;
-        CreatedDate = DateTime.Now;
+        CreatedDate = DateTime.UtcNow;
     }
     
     private Game() { }
