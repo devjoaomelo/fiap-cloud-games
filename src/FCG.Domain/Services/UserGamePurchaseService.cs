@@ -18,6 +18,7 @@ public class UserGamePurchaseService : IUserGamePurchaseService
         _gameRepository = gameRepository;
         _userValidationService = userValidationService;
         _gameValidationService = gameValidationService;
+        _userGameRepository = userGameRepository;
         
     }
 
