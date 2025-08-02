@@ -123,12 +123,12 @@ builder.Services.AddSwaggerGen(c =>
 #endregion
 
 #region DbContext
+
 builder.Services.AddDbContext<FCGDbContext>(options =>
-    options.UseMySql(
-        builder.Configuration.GetConnectionString("Default"),
-        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("Default")),
-        b => b.MigrationsAssembly("FCG.Infra")
-    ));
+    options.UseMySql(builder.Configuration.GetConnectionString("Default"),
+        new MySqlServerVersion(new Version(8, 0, 36)),
+        b => b.MigrationsAssembly("FCG.Infra")));
+
 #endregion
 
 #region  Logger
@@ -142,6 +142,7 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "docker")
 {
+    
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
