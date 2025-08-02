@@ -4,6 +4,7 @@ WORKDIR /src
 COPY . .
 RUN dotnet restore "./src/FCG.API/FCG.API.csproj"
 RUN dotnet publish "./src/FCG.API/FCG.API.csproj" -c Release -o /app/publish
+COPY ./src/FCG.API/appsettings.docker.json /app/publish/appsettings.docker.json
 
 # ---------- runtime ----------
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
