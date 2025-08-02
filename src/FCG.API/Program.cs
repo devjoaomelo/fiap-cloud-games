@@ -33,10 +33,7 @@ builder.Configuration
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
     .AddEnvironmentVariables();
 
-
 #region Services
-
-// Handlers
 builder.Services.AddScoped<CreateUserHandler>();
 builder.Services.AddScoped<CreateGameHandler>();
 builder.Services.AddScoped<GetAllUsersHandler>();
@@ -50,10 +47,9 @@ builder.Services.AddScoped<DeleteUserHandler>();
 builder.Services.AddScoped<DeleteGameHandler>();
 builder.Services.AddScoped<LoginUserHandler>();
 builder.Services.AddScoped<BuyGameHandler>();
-builder.Services.AddScoped <GetGamesByUserHandler>();
+builder.Services.AddScoped<GetGamesByUserHandler>();
 builder.Services.AddScoped<RemoveGameFromUserHandler>();
 
-// Interfaces
 builder.Services.AddScoped<IUserCreationService, UserCreationService>();
 builder.Services.AddScoped<IGameCreationService, GameCreationService>();
 builder.Services.AddScoped<IUserValidationService, UserValidationService>();
@@ -84,7 +80,7 @@ builder.Services.AddAuthentication("Bearer")
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"] 
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]
                 ?? throw new InvalidOperationException("JWT:SecretKey is missing.")))
         };
     });
@@ -94,7 +90,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "FCG API", Version = "v1" });
-    
+
     var jwtSecurityScheme = new OpenApiSecurityScheme
     {
         Scheme = "bearer",
@@ -123,26 +119,24 @@ builder.Services.AddSwaggerGen(c =>
 #endregion
 
 #region DbContext
-
 builder.Services.AddDbContext<FCGDbContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("Default"),
         new MySqlServerVersion(new Version(8, 0, 36)),
         b => b.MigrationsAssembly("FCG.Infra")));
-
 #endregion
 
-#region  Logger
+#region Logger
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .CreateLogger();
 
 builder.Host.UseSerilog(dispose: true);
 #endregion
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "docker")
 {
-    
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
@@ -151,23 +145,25 @@ if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "docke
 }
 
 app.UseExceptionMiddleware();
-//app.UseHttpsRedirection();
 app.UseAuthentication();
-app.UseAuthorization();  
-
+app.UseAuthorization();
 app.MapControllers();
 
-using var scope = app.Services.CreateScope();
-try
-{
-    var db = scope.ServiceProvider.GetRequiredService<FCGDbContext>();
-    db.Database.Migrate();
-}
-catch (Exception ex)
-{
-    Log.Fatal(ex, "Erro ao aplicar migrations no banco de dados.");
-    throw;
-}
+var runMigrations = Environment.GetEnvironmentVariable("RUN_MIGRATION");
 
+if (!string.IsNullOrWhiteSpace(runMigrations) && runMigrations.Equals("true", StringComparison.OrdinalIgnoreCase))
+{
+    using var scope = app.Services.CreateScope();
+    try
+    {
+        var db = scope.ServiceProvider.GetRequiredService<FCGDbContext>();
+        db.Database.Migrate();
+    }
+    catch (Exception ex)
+    {
+        Log.Fatal(ex, "Erro ao aplicar migrations no banco de dados.");
+        throw;
+    }
+}
 
 app.Run();
