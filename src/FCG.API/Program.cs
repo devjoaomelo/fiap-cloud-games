@@ -27,6 +27,10 @@ using FCG.Application.Interfaces;
 using FCG.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional:true);
+
+
 
 #region Services
 
@@ -119,8 +123,8 @@ builder.Services.AddSwaggerGen(c =>
 #region DbContext
 builder.Services.AddDbContext<FCGDbContext>(options =>
     options.UseMySql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection")),
+        builder.Configuration.GetConnectionString("Default"),
+        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("Default")),
         b => b.MigrationsAssembly("FCG.Infra")
     ));
 #endregion
@@ -134,7 +138,7 @@ builder.Host.UseSerilog(dispose: true);
 #endregion
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "docker")
 {
     app.UseSwagger();
     app.UseSwaggerUI(options =>
@@ -144,11 +148,14 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseExceptionMiddleware();
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();  
 
-
 app.MapControllers();
+
+using var scope = app.Services.CreateScope();
+var db = scope.ServiceProvider.GetRequiredService<FCGDbContext>();
+db.Database.Migrate();
 
 app.Run();

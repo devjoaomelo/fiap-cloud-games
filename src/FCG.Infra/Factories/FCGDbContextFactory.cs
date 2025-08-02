@@ -9,7 +9,7 @@ public class FCGDbContextFactory : IDesignTimeDbContextFactory<FCGDbContext>
     {
         var optionsBuilder = new DbContextOptionsBuilder<FCGDbContext>();
         optionsBuilder.UseMySql(
-            "server=localhost;database=FCGDb;user=admin;password=admin",
+            "server=localhost;database=FCGDb;user=root;password=changeme",
             new MySqlServerVersion(new Version(8, 0, 41))
         );
 
