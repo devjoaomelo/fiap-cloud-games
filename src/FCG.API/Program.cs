@@ -120,9 +120,18 @@ builder.Services.AddSwaggerGen(c =>
 
 #region DbContext
 builder.Services.AddDbContext<FCGDbContext>(options =>
-    options.UseMySql(builder.Configuration.GetConnectionString("Default"),
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("Default"),
         new MySqlServerVersion(new Version(8, 0, 36)),
-        b => b.MigrationsAssembly("FCG.Infra")));
+        mysqlOpts =>
+        {
+            mysqlOpts.MigrationsAssembly("FCG.Infra");
+
+            mysqlOpts.EnableRetryOnFailure(
+                maxRetryCount: 5,
+                maxRetryDelay: TimeSpan.FromSeconds(10),
+                errorNumbersToAdd: null);    
+        }));
 #endregion
 
 #region Logger
