@@ -157,7 +157,16 @@ app.UseAuthorization();
 app.MapControllers();
 
 using var scope = app.Services.CreateScope();
-var db = scope.ServiceProvider.GetRequiredService<FCGDbContext>();
-db.Database.Migrate();
+try
+{
+    var db = scope.ServiceProvider.GetRequiredService<FCGDbContext>();
+    db.Database.Migrate();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Erro ao aplicar migrations no banco de dados.");
+    throw;
+}
+
 
 app.Run();
