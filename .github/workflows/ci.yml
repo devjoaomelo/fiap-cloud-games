@@ -10,6 +10,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: src
+
     steps:
       - name: Clonar o código
         uses: actions/checkout@v4
@@ -20,10 +24,10 @@ jobs:
           dotnet-version: 8.0.x
 
       - name: Restaurar dependências
-        run: dotnet restore
+        run: dotnet restore FCG.sln
 
       - name: Compilar o projeto
-        run: dotnet build --no-restore
+        run: dotnet build FCG.sln --no-restore
 
       - name: Executar testes
-        run: dotnet test --no-build --verbosity normal
+        run: dotnet test FCG.sln --no-build --verbosity normal
