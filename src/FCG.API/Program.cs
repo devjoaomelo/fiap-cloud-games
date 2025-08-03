@@ -25,6 +25,8 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using FCG.Application.Interfaces;
 using FCG.Application.Services;
+using Serilog.Events;
+using Serilog.Sinks.ApplicationInsights.TelemetryConverters;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration
@@ -137,6 +139,12 @@ builder.Services.AddDbContext<FCGDbContext>(options =>
 #region Logger
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+    .MinimumLevel.Override("System", LogEventLevel.Warning)
+    .WriteTo.Console()
+    .WriteTo.ApplicationInsights(
+        builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"],
+        new TraceTelemetryConverter())
     .CreateLogger();
 
 builder.Host.UseSerilog(dispose: true);

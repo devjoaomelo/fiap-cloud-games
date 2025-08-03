@@ -23,7 +23,7 @@ public class CreateUserHandler
         var user = await _userCreationService.CreateUserAsync(request.Name, request.Email, request.Password);
 
         await _userRepository.CreateUserAsync(user);
-        _logger.LogInformation($"User {user.Name} added with id {user.Id}");
+        _logger.LogInformation($"User {user.Email.Address} added with id {user.Id}");
 
         return new CreateUserResponse(user.Id, user.Name, user.Email.Address);
     }
