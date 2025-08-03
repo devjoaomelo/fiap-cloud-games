@@ -174,5 +174,5 @@ if (!string.IsNullOrWhiteSpace(runMigrations) && runMigrations.Equals("true", St
         throw;
     }
 }
-
+Console.WriteLine("Conectando ao banco: " + builder.Configuration.GetConnectionString("Default"));
 app.Run();
