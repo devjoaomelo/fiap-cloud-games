@@ -22,9 +22,9 @@ using FCG.Infra.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Serilog;
 using FCG.Application.Interfaces;
 using FCG.Application.Services;
+using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.ApplicationInsights.TelemetryConverters;
 
@@ -137,13 +137,15 @@ builder.Services.AddDbContext<FCGDbContext>(options =>
 #endregion
 
 #region Logger
+
+var aiConnString = builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"];
+
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
     .MinimumLevel.Override("System", LogEventLevel.Warning)
-    .WriteTo.Console()
     .WriteTo.ApplicationInsights(
-        builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"],
+        aiConnString,
         new TraceTelemetryConverter())
     .CreateLogger();
 
