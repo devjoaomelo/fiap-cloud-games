@@ -183,4 +183,8 @@ if (!string.IsNullOrWhiteSpace(runMigrations) && runMigrations.Equals("true", St
     }
 }
 Console.WriteLine("Conectando ao banco: " + builder.Configuration.GetConnectionString("Default"));
+Console.WriteLine(">>>>> APP CONFIG LOADED <<<<<");
+Console.WriteLine("Ambiente: " + builder.Environment.EnvironmentName);
+Console.WriteLine("ConnString: " + builder.Configuration.GetConnectionString("Default"));
+
 app.Run();
