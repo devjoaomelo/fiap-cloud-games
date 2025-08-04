@@ -25,8 +25,7 @@ using Microsoft.OpenApi.Models;
 using FCG.Application.Interfaces;
 using FCG.Application.Services;
 using Serilog;
-using Serilog.Events;
-using Serilog.Sinks.ApplicationInsights.TelemetryConverters;
+
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration
@@ -34,6 +33,12 @@ builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
     .AddEnvironmentVariables();
+
+builder.Services.AddApplicationInsightsTelemetry(options =>
+{
+    options.ConnectionString =
+        builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"];
+});
 
 #region Services
 builder.Services.AddScoped<CreateUserHandler>();
@@ -142,14 +147,13 @@ var aiConnString = builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"
 
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
-    .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-    .MinimumLevel.Override("System", LogEventLevel.Warning)
     .WriteTo.ApplicationInsights(
         aiConnString,
-        new TraceTelemetryConverter())
+        new Serilog.Sinks.ApplicationInsights.TelemetryConverters.TraceTelemetryConverter())
     .CreateLogger();
 
 builder.Host.UseSerilog(dispose: true);
+builder.Services.AddApplicationInsightsTelemetry(aiConnString);
 #endregion
 
 var app = builder.Build();
