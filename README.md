@@ -1,177 +1,137 @@
-# FIAP Cloud Games (FCG) – Em desenvolvimento da segunda etapa 🚀
+# FIAP Cloud Games (FCG) – **Fase 2**
 
-API RESTful desenvolvida para gerenciamento de usuários e biblioteca de jogos digitais.
+![ci](https://github.com/<org>/fiap-cloud-games/actions/workflows/ci.yml/badge.svg)
+![cd](https://github.com/<org>/fiap-cloud-games/actions/workflows/cd.yml/badge.svg)
+
+API RESTful para gerenciamento de usuários e biblioteca de jogos digitais – **agora containerizada, escalável e monitorada na Azure**.
 
 ---
-
 ## Descrição
 
-O FCG (FIAP Cloud Games) é um MVP que simula uma plataforma de venda de jogos digitais.  
-Os usuários podem se registrar, fazer login com autenticação JWT, comprar jogos, visualizar e remover jogos da própria biblioteca.  
-Administradores têm acesso total ao sistema, podendo gerenciar qualquer usuário e jogo.
+O FCG é um MVP que simula uma plataforma de venda de jogos. Usuários podem se registrar, comprar jogos e gerenciar sua biblioteca; administradores podem gerenciar qualquer usuário e jogo.
+
+A **Fase 2** concentrou‑se em _Deploy_, _Cloud_ e _Observabilidade_, mantendo o domínio da Fase 1 intacto.
 
 ---
+## Tecnologias & Ferramentas
 
-## Tecnologias e Arquitetura
-
-- **.NET 8**
-- **ASP.NET Core Web API**
-- **Entity Framework Core**
-- **JWT (Json Web Token)**
-- **Swagger/OpenAPI**
-- **xUnit + Moq**
-- **Arquitetura em Camadas (Clean Architecture + DDD)**
+- **.NET 8** • ASP.NET Core Web API  
+- **Entity Framework Core 8**  
+- **JWT** (Json Web Token)  
+- **Docker + Docker Compose**  
+- **Azure Container Registry** • **Azure Container Apps**  
+- **Azure Database for MySQL**  
+- **Application Insights**  
+- **Grafana** (Azure Monitor datasource)  
+- **GitHub Actions CI/CD**  
+- **xUnit + Moq**  
+- **Clean Architecture + DDD**
 
 ---
+## 🗺Arquitetura
 
+<img width="1024" height="1024" alt="0a7fb833-7417-4ef2-819e-a05c75ae1302-1" src="https://github.com/user-attachments/assets/37c690b6-a9ac-490c-91dc-f0b17c8997ed" />
+
+---
 ## Rodando Localmente
 
-**Pré-requisitos:**
-- [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
-- SQL Server (ou ajuste a connection string)
-- Ferramenta como Postman ou Swagger
-
-### Passos
+### Opção A – .NET direto (desenvolvimento)
 
 ```bash
-git clone https://github.com/seu-usuario/fcg-api.git
-cd fcg-api
-```
+# Pré‑requisitos: .NET 8 SDK + SQL Server
 
-Configure o `appsettings.json`:
+git clone https://github.com/devjoaomelo/fiap-cloud-games.git
+cd fiap-cloud-games
 
-```json
-{
-  "Jwt": {
-    "SecretKey": "sua-chave-secreta-de-32-caracteres-alfanumericos-no-minimo",
-    "Issuer": "FCGIssuer",
-    "Audience": "FCGAudience"
-  },
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=SEU_SERVER;Database=FCGDb;User=SEU_USUARIO;Password=SUA_SENHA;"
-  }
-}
-```
+# ajuste appsettings.json e gere o banco
 
-```bash
-dotnet ef migrations add "FirstMigration"
 dotnet ef database update
+
 dotnet run --project FCG.API
+# Swagger em http://localhost:5050/swagger
 ```
 
-Acesse o Swagger:
-```
-http://localhost:{porta}/swagger
-```
-
----
-
-## Autenticação e Autorização
-
-- JWT com roles (`User`, `Admin`)
-- Proteção por `[Authorize(Roles="")]`
-- Gere o token no endpoint de login e use no Swagger clicando em "Authorize"
-
----
-
-## Exemplos de Endpoints
-
-### Autenticação
-```
-POST /api/auth/login
-```
-
-### Usuários
-```
-POST /api/users
-GET /api/users/{id}
-PUT /api/users/{id}
-DELETE /api/users/{id}
-```
-
-### Jogos
-```
-GET /api/games
-POST /api/games
-PUT /api/games/{id}
-DELETE /api/games/{id}
-```
-
-### Biblioteca Pessoal
-```
-POST /api/usergames/games/{gameId}
-GET /api/usergames/games
-DELETE /api/usergames/games/{gameId}
-```
-
-### Admin
-```
-GET /api/Admin/{userId}/games
-PUT /api/Admin/promote/{id}
-PUT /api/admin/users/{id}
-POST /api/Admin/{userId}/games/{gameId}
-DELETE /api/Admin/users/{userId}/games/{gameId}
-DELETE /api/Admin/{id}
-```
-
----
-
-## Estrutura de Pastas
+### Opção B – Docker Compose (produção like)
 
 ```bash
-FCG.API/               -> Camada de apresentação (Controllers, Middlewares)
-FCG.Application/       -> Casos de uso (Use Cases, Handlers, Services)
-FCG.Domain/            -> Entidades, ValueObjects, Interfaces
-FCG.Infra/             -> Repositórios e DataContext (EF Core)
-FCG.Tests/             -> Testes unitários com xUnit + Moq
+# Pré‑requisito: Docker Desktop
+
+docker compose up --build
+# API em http://localhost:8080/swagger
+```
+
+Compose sobe API + MySQL já configurado; variáveis em `docker-compose.yaml`.
+
+---
+## CI / CD
+
+- **CI** (`.github/workflows/ci.yml`)  
+  `restore ➜ build ➜ test ➜ publish‑artifact`  
+  Falha em testes bloqueia merge.
+- **CD** (`.github/workflows/cd.yml`)  
+  `docker build ➜ push ➜ az login ➜ az containerapp update`  
+  Tag da imagem = _commit SHA_. Deploy sem downtime em ~4 min.
+
+---
+## Monitoramento
+
+![dashboard](docs/img/dashboard_phase2.png)
+
+Métricas no Grafana:
+- Disponibilidade
+- Usage
+- Requests por minuto
+- Latência média
+- CPU & Memória por réplica
+- **HTTP Status Codes** em pizza
+
+---
+## Autenticação & Autorização
+
+JWT com roles (`User`, `Admin`). Gere o token em `/api/auth/login` e clique **Authorize** no Swagger.
+
+---
+## Endpoints Principais
+
+```text
+POST   /api/auth/login               # login
+POST   /api/users                    # criar usuário
+GET    /api/games                    # listar jogos
+POST   /api/usergames/games/{id}     # comprar jogo
+... (ver Swagger)
 ```
 
 ---
-
-## Funcionalidades
-
-- Cadastro, login, atualização e exclusão de usuários
-- Adicionar, atualizar, adquirir e excluir jogos
-- Visualizar/remover jogos da biblioteca pessoal
-- Promoção e gerenciamento de usuários por administradores
-- Autenticação JWT e autorização por perfil
-- Swagger com documentação automática
-- Tratamento global de exceções via middleware
-- Testes de unidade com TDD em casos críticos
-
----
-
 ## Qualidade de Software
 
-Este projeto aplica **Test-Driven Development (TDD)** em diversos casos de uso importantes, com testes unitários escritos com xUnit e Moq:
-
-- `UserCreationService` – cadastro com promoção de admin
-- `GameCreationService` – criação validada de jogos
-- `UserGamePurchaseService` – regras de compra com verificação
-- `LoginUserHandler` – autenticação via e-mail/senha
-
-Os testes cobrem cenários positivos e negativos com foco nas regras de negócio.
+TDD com xUnit + Moq. Serviços cobertos:
+- UserCreationService  
+- GameCreationService  
+- UserGamePurchaseService  
+- LoginUserHandler
 
 ---
+## Estrutura de Pastas
 
-## Design e Arquitetura
-
-- Clean Architecture com separação clara por camadas
-- DDD aplicado com Entities, Value Objects e Services
-- Handlers por Use Case centralizando lógica de aplicação
-- Value Objects com validações robustas (`Email`, `Password`, `Title`, `Price`)
-- Middleware para tratamento global de exceções
-- Interface e serviços de autenticação desacoplados (`ITokenService`, `IUserAuthenticationService`)
-
----
-
-## Documentação
-
-[Documentação PDF](https://github.com/devjoaomelo/fiap-cloud-games/blob/main/Documentacao_FIAP_Cloud_Games.pdf)
+```text
+FCG.API/          # Controllers, Middlewares
+FCG.Application/  # Use Cases, Handlers
+FCG.Domain/       # Entities, ValueObjects
+FCG.Infra/        # EF Core, Repositórios
+FCG.Tests/        # xUnit
+```
 
 ---
+## 🤝 Contribuição
 
-## Autor
+1. Fork ➜ branch `feature/<nome>`  
+2. `dotnet test` verde  
+3. Abra PR; CI precisa passar.
 
-MVP desenvolvido para a segunda etapa da Tech Challenge FIAP  
-**Aluno:** João Vitor Gonçalves de Melo
+---
+## 📄 Licença
+
+MIT – veja `LICENSE`.
+
+---
+Projeto por **João Vitor Gonçalves de Melo** para o Tech Challenge FIAP 2025.
