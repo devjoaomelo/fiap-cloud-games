@@ -30,7 +30,6 @@ A **Fase 2** concentrou‑se em _Deploy_, _Cloud_ e _Observabilidade_, mantend
 ---
 ## 🗺Arquitetura
 
-<img width="1024" height="1024" alt="0a7fb833-7417-4ef2-819e-a05c75ae1302-1" src="https://github.com/user-attachments/assets/37c690b6-a9ac-490c-91dc-f0b17c8997ed" />
 
 ---
 ## Rodando Localmente
@@ -75,8 +74,8 @@ Compose sobe API + MySQL já configurado; variáveis em `docker-compose.yaml`.
 ---
 ## Monitoramento
 
-![dashboard](<img width="1849" height="836" alt="{3900E6BA-A495-4CEF-B545-75D88BD323CF}" src="https://github.com/user-attachments/assets/d64651a0-e57f-4db4-869f-d999da863a50" />
-)
+<img width="1849" height="836" alt="{3900E6BA-A495-4CEF-B545-75D88BD323CF}" src="https://github.com/user-attachments/assets/ab5e01c3-4028-426e-9141-5850a86d072d" />
+
 
 Métricas no Grafana:
 - Disponibilidade
