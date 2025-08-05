@@ -121,7 +121,7 @@ FCG.Infra/        # EF Core, Repositórios
 FCG.Tests/        # xUnit
 ```
 # Documentação
-[An Internal Link to a Section Heading](https://github.com/devjoaomelo/fiap-cloud-games/blob/main/Documentacao_FIAP_Cloud_Games.pdf)
+[Link da documentação](https://github.com/devjoaomelo/fiap-cloud-games/blob/main/Documentacao_FIAP_Cloud_Games.pdf)
 
 ---
 ## Licença
