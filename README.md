@@ -120,18 +120,11 @@ FCG.Domain/       # Entities, ValueObjects
 FCG.Infra/        # EF Core, Repositórios
 FCG.Tests/        # xUnit
 ```
+# Documentação
+[An Internal Link to a Section Heading](https://github.com/devjoaomelo/fiap-cloud-games/blob/main/Documentacao_FIAP_Cloud_Games.pdf)
 
 ---
-## 🤝 Contribuição
-
-1. Fork ➜ branch `feature/<nome>`  
-2. `dotnet test` verde  
-3. Abra PR; CI precisa passar.
-
----
-## 📄 Licença
-
-MIT – veja `LICENSE`.
-
+## Licença
+MIT.
 ---
 Projeto por **João Vitor Gonçalves de Melo** para o Tech Challenge FIAP 2025.
