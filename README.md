@@ -75,7 +75,8 @@ Compose sobe API + MySQL já configurado; variáveis em `docker-compose.yaml`.
 ---
 ## Monitoramento
 
-![dashboard](docs/img/dashboard_phase2.png)
+![dashboard](<img width="1849" height="836" alt="{3900E6BA-A495-4CEF-B545-75D88BD323CF}" src="https://github.com/user-attachments/assets/d64651a0-e57f-4db4-869f-d999da863a50" />
+)
 
 Métricas no Grafana:
 - Disponibilidade
