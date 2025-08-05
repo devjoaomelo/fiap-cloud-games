@@ -29,7 +29,9 @@ A **Fase 2** concentrou‑se em _Deploy_, _Cloud_ e _Observabilidade_, mantend
 
 ---
 ## 🗺Arquitetura
-
+Fluxo: Código -> Github actions -> Docker
+build and push -> ACR -> Azure db mysql -
+> Application insights -> Grafana
 
 ---
 ## Rodando Localmente
@@ -114,11 +116,20 @@ TDD com xUnit + Moq. Serviços cobertos:
 ## Estrutura de Pastas
 
 ```text
-FCG.API/          # Controllers, Middlewares
-FCG.Application/  # Use Cases, Handlers
-FCG.Domain/       # Entities, ValueObjects
-FCG.Infra/        # EF Core, Repositórios
-FCG.Tests/        # xUnit
+src/
+  FCG.API/          # Controllers, Middlewares
+  FCG.Application/  # Use Cases, Handlers
+  FCG.Domain/       # Entities, ValueObjects
+  FCG.Infra/        # EF Core, Repositórios
+  FCG.Tests/       # xUnit
+.github/
+  -workflows/
+    -ci.yml
+    -deploy.yml
+    -docker-publish.yml
+.env
+dockerfile
+docker-compose.yaml
 ```
 # Documentação
 [Link da documentação](https://github.com/devjoaomelo/fiap-cloud-games/blob/main/Documentacao_FIAP_Cloud_Games.pdf)
