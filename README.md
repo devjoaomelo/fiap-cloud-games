@@ -1,7 +1,7 @@
 # FIAP Cloud Games (FCG) – **Fase 2**
 
 ![ci](https://github.com/devjoaomelo/fiap-cloud-games/actions/workflows/ci.yml/badge.svg)
-![cd](https://github.com/devjoaomelo/fiap-cloud-games/actions/workflows/cd.yml/badge.svg)
+![cd](https://github.com/devjoaomelo/fiap-cloud-games/actions/workflows/deploy.yml/badge.svg)
 
 API RESTful para gerenciamento de usuários e biblioteca de jogos digitais – **agora containerizada, escalável e monitorada na Azure**.
 
