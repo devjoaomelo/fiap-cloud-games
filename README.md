@@ -28,7 +28,7 @@ A **Fase 2** concentrou‑se em _Deploy_, _Cloud_ e _Observabilidade_, mantend
 - **Clean Architecture + DDD**
 
 ---
-## 🗺Arquitetura
+## Arquitetura
 Fluxo: Código -> Github actions -> Docker
 build and push -> ACR -> Azure db mysql -
 > Application insights -> Grafana
